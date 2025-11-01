@@ -24,7 +24,7 @@ void Puzzle::generatePuzzle() {
 }
 
 void Puzzle::generateKey() {
-    key.resize(10);
+    key.resize(16);
     for (int i = 0; i < 10; i++) {
         key[i] = '0' + i;
     }
