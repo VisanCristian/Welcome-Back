@@ -82,17 +82,26 @@ void gameObject::genPuzzle(const std::string& puzzleType) {
     }
 }
 
-void gameObject::checkPoint() const {
+void gameObject::checkPoint() {
     // Checks the current state of the game
     std::cout << "CheckPoint" << std::endl;
 
     if (solvedPuzzles == puzzleNr) {
-        std::cout << "Congratulations! You have solved all puzzles! The game is over" << std::endl;
+        player.setFinalKey(generateFinalKey(player.getKeys()));
+        winGame(player.getFinalKey());
         exit(0);
     }
 
     std::cout << "You are currently on puzzle: " << solvedPuzzles + 1 << " out of " << puzzleNr << std::endl;
 
+}
+
+std::string gameObject::generateFinalKey(const std::vector<std::string> &keys) {
+    std::string finalKey;
+    for (const auto& key : keys) {
+        finalKey += "%" + key;
+    }
+    return finalKey;
 }
 
 void gameObject::gameOver(const std::string &reason) {

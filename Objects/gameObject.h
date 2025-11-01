@@ -18,9 +18,11 @@ class gameObject {
 
     Player player;
 
-    void checkPoint() const;
+    void checkPoint();
     void genPuzzle(const std::string &puzzleType);
     void timerThread(const Puzzle& puzzle);
+
+    static std::string generateFinalKey(const std::vector<std::string> &keys);
 
 public:
 

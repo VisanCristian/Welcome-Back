@@ -34,11 +34,12 @@ int main() {
         cout << player << endl;
     }
     std::string finalKey;
-    for (int i = 0; i < player.getKeys().size(); i++) {
+    for (unsigned long int i = 0; i < player.getKeys().size(); i++) {
         finalKey += player.getKeys()[i];
     }
     cout << finalKey << endl;
     game.winGame(finalKey);
 
+    game.start();
     return 0;
 }

@@ -33,7 +33,7 @@ std::ostream& operator<<(std::ostream& os,  const Player& player) {
         os << "No keys collected.\n";
         return os;
     }
-    for (int i = 0; i < player.keys.size(); i++) {
+    for (unsigned long i = 0; i < player.keys.size(); i++) {
         os << "Player key " << i + 1 << ":";
         os << " " << player.keys[i] << "\n";
     }

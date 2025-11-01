@@ -20,7 +20,8 @@ public:
     ~Player();
 
     void addKey(const std::string& key);
-    std::vector<std::string>& getKeys() {return keys;};
+    std::vector<std::string>& getKeys() {return keys;}
+
     std::string getFinalKey() const;
     void setFinalKey(const std::string &key);
 
