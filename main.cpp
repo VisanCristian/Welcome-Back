@@ -1,50 +1,44 @@
 #include <iostream>
-#include <array>
+#include <fstream>
+
+#include "Objects/gameObject.h"
+#include "Objects/Player.h"
+#include "Objects/Puzzle.h"
+
+std::ifstream fin("tastatura.txt");
+
+using namespace std;
 
 int main() {
-    std::cout << "Hello, world!\n";
-    std::array<int, 100> v{};
-    int nr;
-    std::cout << "Introduceți nr: ";
-    /////////////////////////////////////////////////////////////////////////
-    /// Observație: dacă aveți nevoie să citiți date de intrare de la tastatură,
-    /// dați exemple de date de intrare folosind fișierul tastatura.txt
-    /// Trebuie să aveți în fișierul tastatura.txt suficiente date de intrare
-    /// (în formatul impus de voi) astfel încât execuția programului să se încheie.
-    /// De asemenea, trebuie să adăugați în acest fișier date de intrare
-    /// pentru cât mai multe ramuri de execuție.
-    /// Dorim să facem acest lucru pentru a automatiza testarea codului, fără să
-    /// mai pierdem timp de fiecare dată să introducem de la zero aceleași date de intrare.
-    ///
-    /// Pe GitHub Actions (bife), fișierul tastatura.txt este folosit
-    /// pentru a simula date introduse de la tastatură.
-    /// Bifele verifică dacă programul are erori de compilare, erori de memorie și memory leaks.
-    ///
-    /// Dacă nu puneți în tastatura.txt suficiente date de intrare, îmi rezerv dreptul să vă
-    /// testez codul cu ce date de intrare am chef și să nu pun notă dacă găsesc vreun bug.
-    /// Impun această cerință ca să învățați să faceți un demo și să arătați părțile din
-    /// program care merg (și să le evitați pe cele care nu merg).
-    ///
-    /////////////////////////////////////////////////////////////////////////
-    std::cin >> nr;
-    /////////////////////////////////////////////////////////////////////////
-    for(int i = 0; i < nr; ++i) {
-        std::cout << "v[" << i << "] = ";
-        std::cin >> v[i];
+    int difficulty, attempts;
+    fin >> difficulty >> attempts;
+
+    Player player(attempts);
+    gameObject game("game1", difficulty, player);
+
+    for (int i = 0; i < game.getDifficulty(); i++) {
+        Puzzle puzzle("buttonsInOrder");
+        cout << "Puzzle "<< i << ":\n" <<puzzle << endl;
+        vector<int> userAnswer = puzzle.getAnswer();
+        puzzle.setAnswer(userAnswer);
+        if (puzzle.checkAnswer()) {
+            cout << "Puzzle solved!" << endl;
+            player.addKey(puzzle.getKey());
+        } else if (player.getAttemptsLeft() == 0) {
+            game.gameOver("Wrong answer. No attempts left.");
+            return 0;
+        } else {
+            player.setAttemptsLeft(player.getAttemptsLeft() - 1);
+            cout << "Wrong answer. Attempts left: " << player.getAttemptsLeft() << endl;
+        }
+        cout << player << endl;
     }
-    std::cout << "\n\n";
-    std::cout << "Am citit de la tastatură " << nr << " elemente:\n";
-    for(int i = 0; i < nr; ++i) {
-        std::cout << "- " << v[i] << "\n";
+    std::string finalKey;
+    for (int i = 0; i < player.getKeys().size(); i++) {
+        finalKey += player.getKeys()[i];
     }
-    ///////////////////////////////////////////////////////////////////////////
-    /// Pentru date citite din fișier, NU folosiți tastatura.txt. Creați-vă voi
-    /// alt fișier propriu cu ce alt nume doriți.
-    /// Exemplu:
-    /// std::ifstream fis("date.txt");
-    /// for(int i = 0; i < nr2; ++i)
-    ///     fis >> v2[i];
-    ///
-    ///////////////////////////////////////////////////////////////////////////
+    cout << finalKey << endl;
+    game.winGame(finalKey);
+
     return 0;
 }
