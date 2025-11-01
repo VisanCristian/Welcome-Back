@@ -11,7 +11,7 @@ void Player::addKey(const std::string& key) {
     keys.push_back(key);
 }
 
-std::string Player::getFinalKey() const {
+const std::string& Player::getFinalKey() const{
     return finalKey;
 }
 

@@ -42,7 +42,7 @@ public:
     bool getSolved() const;
     void setTimeUp(const bool status);
     bool getTimeUp() const;
-    std::string getKey() const { return key; }
+    const std::string& getKey() const { return key; }
 
    [[nodiscard]] bool checkAnswer() const;
 

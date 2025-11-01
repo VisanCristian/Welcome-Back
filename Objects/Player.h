@@ -15,14 +15,14 @@ class Player {
     int attemptsLeft;
     std::string finalKey;
 public:
-
-    Player(int attemptsLeft);
+    Player() {this->attemptsLeft = 0;};
+    explicit Player(int attemptsLeft);
     ~Player();
 
     void addKey(const std::string& key);
     std::vector<std::string>& getKeys() {return keys;}
 
-    std::string getFinalKey() const;
+    const std::string& getFinalKey() const;
     void setFinalKey(const std::string &key);
 
     int getAttemptsLeft() const;
