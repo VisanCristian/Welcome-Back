@@ -7,12 +7,12 @@
 #include "Objects/Puzzle.h"
 #include "Objects/tagZones.h"
 
-std::ifstream fin("tastatura.txt");
 
 using namespace std;
 
 int main() {
 
+    std::ifstream fin("tastatura.txt");
     // Constructors:
     Player p1(2);
     gameObject game1("test", 1, p1);
