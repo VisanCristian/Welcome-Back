@@ -38,8 +38,8 @@ int main() {
     }
     game.winGame(finalKey);
 
-    /*Player player1(0);
-    gameObject game("nume", 3, player1);
-    game.start();*/
+    Player player1(0);
+    gameObject game2("nume", 3, player1);
+    game.start();
     return 0;
 }

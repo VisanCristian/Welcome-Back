@@ -6,29 +6,10 @@
 #include <iostream>
 #include <thread>
 #include <chrono>
-#include <termios.h>
-#include <unistd.h>
-#include <fcntl.h>
 #include "Puzzle.h"
 
 
 // Modify TTY blocking mode
-
-void setBlockingMode(bool enable) {
-    struct termios ttystate;
-    tcgetattr(STDIN_FILENO, &ttystate);
-    if (enable) {
-        ttystate.c_lflag &= ~ICANON; // Disable canonical mode
-        ttystate.c_lflag &= ~ECHO;   // Disable echo
-        fcntl(STDIN_FILENO, F_SETFL, O_NONBLOCK);
-    } else {
-        ttystate.c_lflag |= ICANON;
-        ttystate.c_lflag |= ECHO;
-        fcntl(STDIN_FILENO, F_SETFL, 0);
-    }
-    tcsetattr(STDIN_FILENO, TCSANOW, &ttystate);
-}
-
 
 // Constructor
 
