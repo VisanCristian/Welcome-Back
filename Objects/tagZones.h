@@ -11,10 +11,10 @@ class tagZones : public Puzzle{
 protected:
     int timeLimit;
     void generatePuzzle() override;
-    void setCorrectAnswer(const std::vector<int> &puzzle);
+    void setCorrectAnswer();
 public:
 
-    explicit tagZones(const int timeLimit) : timeLimit(timeLimit) {tagZones::generatePuzzle(); generateKey(); setCorrectAnswer(puzzle); userAnswer.resize(9);};
+    explicit tagZones(const int timeLimit) : timeLimit(timeLimit) {tagZones::generatePuzzle(); generateKey(); setCorrectAnswer(); userAnswer.resize(9);};
     ~tagZones() override = default;
 
     friend std::ostream& operator<<(std::ostream& os, const tagZones& obj);

@@ -49,7 +49,7 @@ void tagZones::setAnswer(const std::vector<int> &Answer) {
     this->userAnswer = Answer;
 }
 
-void tagZones::setCorrectAnswer(const std::vector<int> &puzzle) {
+void tagZones::setCorrectAnswer() {
     std::stack<std::pair<int,int>> posToCount;
     correctAnswer = puzzle;
     int comp = 2; int m = 3;

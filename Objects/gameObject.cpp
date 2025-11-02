@@ -12,7 +12,6 @@
 #include <random>
 
 
-// Modify TTY blocking mode
 
 // Constructor
 

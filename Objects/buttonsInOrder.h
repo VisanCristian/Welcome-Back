@@ -10,10 +10,10 @@
 class buttonsInOrder : public Puzzle {
     int timeLimit;
     void generatePuzzle() override;
-    void setCorrectAnswer(const std::vector<int> &puzzle);
+    void setCorrectAnswer();
 
 public:
-    explicit buttonsInOrder(const int timeLimit) : timeLimit(timeLimit) {buttonsInOrder::generatePuzzle(); generateKey(); setCorrectAnswer(puzzle); userAnswer.resize(10);};
+    explicit buttonsInOrder(const int timeLimit) : timeLimit(timeLimit) {buttonsInOrder::generatePuzzle(); generateKey(); setCorrectAnswer(); userAnswer.resize(10);};
     ~buttonsInOrder() override = default;
 
     friend std::ostream& operator<<(std::ostream& os, const buttonsInOrder& obj);

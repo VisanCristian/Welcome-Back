@@ -26,7 +26,7 @@ void buttonsInOrder::generatePuzzle() {
     fout << std::endl;
 }
 
-void buttonsInOrder::setCorrectAnswer(const std::vector<int> &puzzle) {
+void buttonsInOrder::setCorrectAnswer() {
     this->correctAnswer = puzzle;
 }
 
