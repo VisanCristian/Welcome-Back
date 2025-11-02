@@ -16,7 +16,7 @@ void Puzzle::generatePuzzle() {
     std::mt19937 gen(rd());
     std::ranges::shuffle(puzzle, gen);
 
-    std::ofstream fout("tastatura.txt");
+    std::ofstream fout("rightAnswears.txt");
     for (int i = 0; i < 10; i++) {
         fout << puzzle[i] << " ";
     }
@@ -83,7 +83,7 @@ Puzzle& Puzzle::operator=(const Puzzle& other) {
 }
 
 std::vector<int> Puzzle::getAnswer() {
-    std::ifstream fin("tastatura.txt");
+    std::ifstream fin("rightAnswears.txt");
     std::vector<int> Answer(10, -1);
     for (int i = 0; i < 10; i++) {
         fin >> Answer[i];
@@ -100,18 +100,18 @@ int Puzzle::getTimeLimit() const {
 }
 
 void Puzzle::setSolved(const bool status) {
-    this->solved = status;
+    solved.store(status);
 }
 
 bool Puzzle::getSolved() const {
-    return this->solved;
+    return solved.load();
 }
 
 void Puzzle::setTimeUp(const bool status) {
-    this->timeUp = status;
+    timeUp.store(status);
 }
 bool Puzzle::getTimeUp() const {
-    return this->timeUp;
+    return timeUp.load();
 }
 
 [[nodiscard]] bool Puzzle::checkAnswer() const {

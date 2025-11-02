@@ -6,7 +6,28 @@
 #include <iostream>
 #include <thread>
 #include <chrono>
+#include <termios.h>
+#include <unistd.h>
+#include <fcntl.h>
 #include "Puzzle.h"
+
+
+// Modify TTY blocking mode
+
+void setBlockingMode(bool enable) {
+    struct termios ttystate;
+    tcgetattr(STDIN_FILENO, &ttystate);
+    if (enable) {
+        ttystate.c_lflag &= ~ICANON; // Disable canonical mode
+        ttystate.c_lflag &= ~ECHO;   // Disable echo
+        fcntl(STDIN_FILENO, F_SETFL, O_NONBLOCK);
+    } else {
+        ttystate.c_lflag |= ICANON;
+        ttystate.c_lflag |= ECHO;
+        fcntl(STDIN_FILENO, F_SETFL, 0);
+    }
+    tcsetattr(STDIN_FILENO, TCSANOW, &ttystate);
+}
 
 
 // Constructor
@@ -36,38 +57,50 @@ std::ostream& operator<<(std::ostream& os, const gameObject& obj) {
     return os;
 }
 
-void gameObject::timerThread(const Puzzle& puzzle) {
-    std::cout << "You have " << puzzle.getTimeLimit() << " seconds to solve the puzzle!" << std::endl;
-    std::this_thread::sleep_for(std::chrono::seconds(puzzle.getTimeLimit()));
+
+void gameObject::inputThread(Puzzle &puzzle, std::vector<int> &answer) {
+    answer = Puzzle::getAnswer();
+    puzzle.setAnswer(answer);
+    puzzle.setSolved(true);
+}
+
+void gameObject::timerThread(Puzzle &puzzle) {
+    for (int i = 0; i < 10 * puzzle.getTimeLimit(); i++) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        if (puzzle.getSolved() == true) return;
+    }
     if (puzzle.getSolved() == false) {
-        if (player.getAttemptsLeft() > 0) {
-            player.setAttemptsLeft(player.getAttemptsLeft() - 1);
-            std::cout << "Time is up! You have " << player.getAttemptsLeft() << " attempts left. Try not to get any more puzzles wrong" << std::endl;
-            exit(0);
-        } else {
-            std::string reason = "Time limit exceeded for puzzle";
-            gameOver(reason);
-            exit(0);
-        }
+        puzzle.setTimeUp(true);
     }
 }
 
 void gameObject::genPuzzle(const std::string& puzzleType) {
+
+    // Set tty to non-blocking mode
+
     // Generates a Puzzle
     Puzzle newPuzzle(puzzleType);
-    std::cout << newPuzzle;
-
+    newPuzzle.setSolved(false);
     newPuzzle.setTimeUp(false);
-    std::thread timer(&gameObject::timerThread, this, std::ref(newPuzzle));
-    timer.detach();
 
-    const std::vector<int> answer = Puzzle::getAnswer();
-    newPuzzle.setAnswer(answer);
+    std::cout << newPuzzle;
+    std::vector<int> userAnswer;
 
-    if (newPuzzle.getTimeUp() == true) {
-        gameOver("Time is up");
-        exit(0);
+    std::thread input(inputThread, std::ref(newPuzzle), std::ref(userAnswer));
+    std::thread timer(timerThread, std::ref(newPuzzle));
+
+    while (true) {
+        if (newPuzzle.getSolved() == true) {break;}
+        if (newPuzzle.getTimeUp() == true) {
+            gameOver("Time is up!");
+
+            std::exit(0);
+        }
+        std::this_thread::sleep_for(std::chrono::milliseconds(150));
     }
+
+    input.join();
+    timer.join();
 
     if (newPuzzle.checkAnswer() == 0 && player.getAttemptsLeft() == 0) {
         gameOver("Your answer is incorrect");
@@ -81,6 +114,9 @@ void gameObject::genPuzzle(const std::string& puzzleType) {
         std::cout << "Correct answer! You have solved " << solvedPuzzles << " puzzles." << std::endl;
     }
 }
+
+
+
 
 void gameObject::checkPoint() {
     // Checks the current state of the game
@@ -117,7 +153,7 @@ void gameObject::winGame(const std::string& finalKey) {
 
 
 void gameObject::start() {
-    for (int i = 0; i < puzzleNr; i++) {
+    while (solvedPuzzles < puzzleNr) {
         checkPoint();
         genPuzzle("buttonsInOrder");
     }
