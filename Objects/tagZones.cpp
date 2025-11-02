@@ -107,7 +107,7 @@ std::ostream& operator<<(std::ostream& os, const tagZones& obj) {
     os << "\n";
     os << "In order to solve this puzzle you need to tag each zone such that in the end, the biggest tag is the number of independent zones" << std::endl;
     os << "2 blocks form a zone if they are adjacent (up down, left right)" << std::endl;
-    os << "User Answer: ";
+    os << "User Answer: \n";
     for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 3; j++) {
             os << obj.userAnswer[i * 3 + j] << " ";

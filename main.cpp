@@ -19,7 +19,7 @@ int main() {
     buttonsInOrder puzzle1(10);
     tagZones puzzle2(10);
 
-    cout << p1 << endl << game1 << endl << puzzle1 << puzzle2;
+    //cout << p1 << endl << game1 << endl << puzzle1 << puzzle2;
 
 
 
@@ -35,7 +35,6 @@ int main() {
         tagZones puzzle(10);
 
         vector<int> userAnswer = puzzle.getAnswer();
-        cout << "User Answer: \n";
 
         // Fail example
         std::random_device rd;
@@ -43,10 +42,6 @@ int main() {
         std::uniform_int_distribution<int> dist(0, 100);
         if (dist(gen) % 3 == 1) {
             userAnswer.resize(userAnswer.size(), -2);
-        }
-
-        for (unsigned long int j = 0; j < userAnswer.size(); j++) {
-            cout << userAnswer[j] << " ";
         }
 
         puzzle.setAnswer(userAnswer);

@@ -39,7 +39,7 @@ std::ostream& operator<<(std::ostream& os, const Puzzle& obj) {
         os << ch;
     }
     os << "\n";
-    os << "User Answer: ";
+    os << "User Answer: \n";
     for (unsigned long int i = 0; i < obj.userAnswer.size(); i++) {
         os << obj.userAnswer[i] << " ";
     }

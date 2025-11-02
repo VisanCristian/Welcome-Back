@@ -17,16 +17,16 @@ class Player {
 public:
     Player() {this->attemptsLeft = 0;};
     Player(const Player& other);
-    Player& operator=(const Player& other);
     explicit Player(int attemptsLeft);
     ~Player();
 
-    void addKey(const std::string& key);
+
+    Player& operator=(const Player& other);
     std::vector<std::string>& getKeys() {return keys;}
 
     const std::string& getFinalKey() const;
     void setFinalKey(const std::string &key);
-
+    void addKey(const std::string& key);
     int getAttemptsLeft() const;
     void setAttemptsLeft(const int attempts);
 

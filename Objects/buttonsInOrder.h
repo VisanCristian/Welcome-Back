@@ -9,6 +9,7 @@
 
 class buttonsInOrder : public Puzzle {
     int timeLimit;
+
     void generatePuzzle() override;
     void setCorrectAnswer();
 
@@ -21,6 +22,7 @@ public:
     std::vector<int> getAnswer() override;
     void setAnswer(const std::vector<int>& Answer) override;
     int getTimeLimit() const override{return this->timeLimit;};
+
     [[nodiscard]] bool checkAnswer() const override;
 
 };
