@@ -14,7 +14,7 @@ protected:
     void setCorrectAnswer(const std::vector<int> &puzzle);
 public:
 
-    explicit tagZones(const int timeLimit) : timeLimit(timeLimit) {generatePuzzle(); generateKey(); setCorrectAnswer(puzzle); userAnswer.resize(9);};
+    explicit tagZones(const int timeLimit) : timeLimit(timeLimit) {tagZones::generatePuzzle(); generateKey(); setCorrectAnswer(puzzle); userAnswer.resize(9);};
     ~tagZones() override = default;
 
     friend std::ostream& operator<<(std::ostream& os, const tagZones& obj);
