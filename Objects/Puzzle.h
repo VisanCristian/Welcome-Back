@@ -12,7 +12,7 @@
 #include <atomic>
 
 class Puzzle {
-
+protected:
     std::unordered_map<std::string, int> puzzleTimeLimits {
        {"buttonsInOrder", 10},
     };
@@ -20,31 +20,29 @@ class Puzzle {
     std::vector<int> puzzle;
     std::vector<int> userAnswer;
     std::vector<int> correctAnswer;
-    std::string puzzleType;
+
+    //std::string puzzleType;
     std::string key;
     std::atomic<bool> solved;
     std::atomic<bool> timeUp;
-    void generatePuzzle();
     void generateKey();
-
+    virtual void generatePuzzle() = 0;
 public:
-    explicit Puzzle(const std::string& type);
-    Puzzle(const Puzzle& other);
+    Puzzle();
+    virtual ~Puzzle() = default;
 
     friend std::ostream& operator<<(std::ostream& os, const Puzzle& obj);
-    Puzzle& operator=(const Puzzle& other);
 
-
-    static std::vector<int> getAnswer();
-    void setAnswer(const std::vector<int>& Answer);
-    int getTimeLimit() const;
+    virtual std::vector<int> getAnswer() = 0;
+    virtual void setAnswer(const std::vector<int>& Answer) = 0;
+    virtual int getTimeLimit() const = 0;
+    virtual bool checkAnswer() const = 0;
     void setSolved(bool status);
     bool getSolved() const;
     void setTimeUp(const bool status);
     bool getTimeUp() const;
     const std::string& getKey() const { return key; }
 
-   [[nodiscard]] bool checkAnswer() const;
 
 
 

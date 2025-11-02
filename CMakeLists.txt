@@ -56,6 +56,10 @@ add_executable(${MAIN_EXECUTABLE_NAME}
         Objects/Puzzle.h
         Objects/Player.cpp
         Objects/Player.h
+        Objects/buttonsInOrder.cpp
+        Objects/buttonsInOrder.h
+        Objects/tagZones.cpp
+        Objects/tagZones.h
 )
 
 # NOTE: Add all defined targets (e.g. executables, libraries, etc. )

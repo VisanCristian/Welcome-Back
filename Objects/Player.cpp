@@ -4,6 +4,22 @@
 
 #include "Player.h"
 
+Player::Player(const Player &other) {
+    this->keys = other.keys;
+    this->attemptsLeft = other.attemptsLeft;
+    this->finalKey = other.finalKey;
+}
+
+Player & Player::operator=(const Player &other) {
+    if (this != &other) {
+        this->keys = other.keys;
+        this->attemptsLeft = other.attemptsLeft;
+        this->finalKey = other.finalKey;
+    }
+    return *this;
+}
+
+
 Player::Player(int attemptLeft) : attemptsLeft(attemptLeft) {};
 Player::~Player() = default;
 

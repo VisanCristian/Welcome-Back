@@ -7,21 +7,6 @@
 #include <algorithm>
 #include <fstream>
 
-void Puzzle::generatePuzzle() {
-    puzzle.resize(10, -1);
-    for (int i = 0; i < 10; i++) {
-        puzzle[i] = i;
-    }
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::ranges::shuffle(puzzle, gen);
-
-    std::ofstream fout("rightAnswears.txt");
-    for (int i = 0; i < 10; i++) {
-        fout << puzzle[i] << " ";
-    }
-    fout << std::endl;
-}
 
 void Puzzle::generateKey() {
     key.resize(16);
@@ -36,19 +21,11 @@ void Puzzle::generateKey() {
     std::ranges::shuffle(key, gen);
 }
 
-Puzzle::Puzzle(const std::string& type) : puzzleType(type){
+Puzzle::Puzzle(){
     this->solved = false;
-    generatePuzzle();
     generateKey();
 }
 
-Puzzle::Puzzle(const Puzzle& other) {
-    this->puzzle = other.puzzle;
-    this->puzzleType = other.puzzleType;
-    this->key = other.key;
-    this->solved = other.solved.load();
-    this->timeUp = other.timeUp.load();
-}
 
 std::ostream& operator<<(std::ostream& os, const Puzzle& obj) {
     os << "Puzzle: \n";
@@ -71,34 +48,6 @@ std::ostream& operator<<(std::ostream& os, const Puzzle& obj) {
     return os;
 }
 
-Puzzle& Puzzle::operator=(const Puzzle& other) {
-    if (this != &other) {
-        this->puzzle = other.puzzle;
-        this->puzzleType = other.puzzleType;
-        this->key = other.key;
-        this->solved = other.solved.load();
-        this->timeUp = other.timeUp.load();
-    }
-    return *this;
-}
-
-std::vector<int> Puzzle::getAnswer() {
-    std::ifstream fin("rightAnswears.txt");
-    std::vector<int> Answer(10, -1);
-    for (int i = 0; i < 10; i++) {
-        fin >> Answer[i];
-    }
-    return Answer;
-}
-
-void Puzzle::setAnswer(const std::vector<int>& Answer) {
-    this->userAnswer = Answer;
-}
-
-int Puzzle::getTimeLimit() const {
-    return puzzleTimeLimits.at(puzzleType);
-}
-
 void Puzzle::setSolved(const bool status) {
     solved.store(status);
 }
@@ -112,8 +61,4 @@ void Puzzle::setTimeUp(const bool status) {
 }
 bool Puzzle::getTimeUp() const {
     return timeUp.load();
-}
-
-[[nodiscard]] bool Puzzle::checkAnswer() const {
-    return userAnswer == puzzle;
 }

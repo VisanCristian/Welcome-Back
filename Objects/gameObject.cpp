@@ -3,10 +3,13 @@
 //
 
 #include "gameObject.h"
+#include "Puzzle.h"
+#include "buttonsInOrder.h"
+#include "tagZones.h"
 #include <iostream>
 #include <thread>
 #include <chrono>
-#include "Puzzle.h"
+#include <random>
 
 
 // Modify TTY blocking mode
@@ -14,7 +17,7 @@
 // Constructor
 
 gameObject::gameObject(const std::string& name, const int difficulty, const Player &player) : name(name),difficulty(difficulty), player(player) {
-    std::cout << "Game Started! In order to find out the truth about your brother you have to find all the keys by solving the puzzles. Click each number in the right order!" << std::endl;
+    std::cout << "Game Started! In order to find out the truth about your brother you have to find all the keys by solving the puzzles. \n" << std::endl;
     this->solvedPuzzles = 0;
     // Constructor implementation
     if (difficulty == 1) {
@@ -24,6 +27,19 @@ gameObject::gameObject(const std::string& name, const int difficulty, const Play
     } else {
         puzzleNr = 3;
     }
+}
+
+gameObject::gameObject(const gameObject &other) : name(other.name), puzzleNr(other.puzzleNr), solvedPuzzles(other.solvedPuzzles), difficulty(other.difficulty), player(other.player) {}
+
+gameObject & gameObject::operator=(const gameObject &other) {
+    if (this != &other) {
+        name = other.name;
+        puzzleNr = other.puzzleNr;
+        solvedPuzzles = other.solvedPuzzles;
+        difficulty = other.difficulty;
+        player = other.player;
+    }
+    return *this;
 }
 
 // Destructor
@@ -40,7 +56,7 @@ std::ostream& operator<<(std::ostream& os, const gameObject& obj) {
 
 
 void gameObject::inputThread(Puzzle &puzzle, std::vector<int> &answer) {
-    answer = Puzzle::getAnswer();
+    answer = puzzle.getAnswer();
     puzzle.setAnswer(answer);
     puzzle.setSolved(true);
 }
@@ -55,20 +71,16 @@ void gameObject::timerThread(Puzzle &puzzle) {
     }
 }
 
-void gameObject::genPuzzle(const std::string& puzzleType) {
+void gameObject::genPuzzle(Puzzle& newPuzzle) {
 
-    // Set tty to non-blocking mode
-
-    // Generates a Puzzle
-    Puzzle newPuzzle(puzzleType);
     newPuzzle.setSolved(false);
     newPuzzle.setTimeUp(false);
 
-    std::cout << newPuzzle;
     std::vector<int> userAnswer;
 
     std::thread input(inputThread, std::ref(newPuzzle), std::ref(userAnswer));
     std::thread timer(timerThread, std::ref(newPuzzle));
+
 
     while (true) {
         if (newPuzzle.getSolved() == true) {break;}
@@ -79,6 +91,8 @@ void gameObject::genPuzzle(const std::string& puzzleType) {
         }
         std::this_thread::sleep_for(std::chrono::milliseconds(150));
     }
+
+    std::cout << newPuzzle;
 
     input.join();
     timer.join();
@@ -93,6 +107,7 @@ void gameObject::genPuzzle(const std::string& puzzleType) {
         solvedPuzzles++;
         newPuzzle.setSolved(true);
         std::cout << "Correct answer! You have solved " << solvedPuzzles << " puzzles." << std::endl;
+        player.addKey(newPuzzle.getKey());
     }
 }
 
@@ -102,7 +117,7 @@ void gameObject::genPuzzle(const std::string& puzzleType) {
 void gameObject::checkPoint() {
     // Checks the current state of the game
     std::cout << "CheckPoint" << std::endl;
-
+    std::cout << player;
     if (solvedPuzzles == puzzleNr) {
         player.setFinalKey(generateFinalKey(player.getKeys()));
         winGame(player.getFinalKey());
@@ -134,9 +149,20 @@ void gameObject::winGame(const std::string& finalKey) {
 
 
 void gameObject::start() {
-    while (solvedPuzzles < puzzleNr) {
+    while (solvedPuzzles <= puzzleNr) {
         checkPoint();
-        genPuzzle("buttonsInOrder");
+
+        std::random_device rd;
+        std::mt19937 gen(rd());
+        std::uniform_int_distribution<int> dist(0, 100);
+        if (dist(gen) % 2 == 0) {
+            buttonsInOrder tmp(10);
+            genPuzzle(tmp);
+        } else {
+            tagZones tmp(10);
+            genPuzzle(tmp);
+        }
+
     }
 }
 

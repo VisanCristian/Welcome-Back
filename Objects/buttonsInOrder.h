@@ -1,0 +1,29 @@
+//
+// Created by visan on 11/2/25.
+//
+
+#ifndef OOP_BUTTONSINORDER_H
+#define OOP_BUTTONSINORDER_H
+
+#include "Puzzle.h"
+
+class buttonsInOrder : public Puzzle {
+    int timeLimit;
+    void generatePuzzle() override;
+    void setCorrectAnswer(const std::vector<int> &puzzle);
+
+public:
+    explicit buttonsInOrder(const int timeLimit) : timeLimit(timeLimit) {buttonsInOrder::generatePuzzle(); generateKey(); setCorrectAnswer(puzzle); userAnswer.resize(10);};
+    ~buttonsInOrder() override = default;
+
+    friend std::ostream& operator<<(std::ostream& os, const buttonsInOrder& obj);
+
+    std::vector<int> getAnswer() override;
+    void setAnswer(const std::vector<int>& Answer) override;
+    int getTimeLimit() const override{return this->timeLimit;};
+    [[nodiscard]] bool checkAnswer() const override;
+
+};
+
+
+#endif //OOP_BUTTONSINORDER_H

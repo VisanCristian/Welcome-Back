@@ -19,7 +19,7 @@ class gameObject {
     Player player;
 
     void checkPoint();
-    void genPuzzle(const std::string &puzzleType);
+    void genPuzzle(Puzzle& puzzle);
 
     static void inputThread(Puzzle &puzzle, std::vector<int> &answer);
     static void timerThread(Puzzle &puzzle);
@@ -29,6 +29,8 @@ class gameObject {
 public:
 
     gameObject(const std::string& name, int difficulty, const Player &player);
+    gameObject(const gameObject& other);
+    gameObject& operator=(const gameObject& other);
     ~gameObject();
 
     friend std::ostream& operator<<(std::ostream& os, const gameObject& obj);
@@ -36,7 +38,7 @@ public:
     void start();
     static void gameOver(const std::string &reason);
     static void winGame(const std::string& finalKey);
-    int getDifficulty() const { return difficulty;};
+    [[nodiscard]] int getDifficulty() const { return difficulty;};
 
 };
 

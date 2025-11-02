@@ -16,6 +16,8 @@ class Player {
     std::string finalKey;
 public:
     Player() {this->attemptsLeft = 0;};
+    Player(const Player& other);
+    Player& operator=(const Player& other);
     explicit Player(int attemptsLeft);
     ~Player();
 
