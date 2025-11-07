@@ -95,6 +95,8 @@ add_executable(${MAIN_EXECUTABLE_NAME}
         generated/src/Helper.cpp
         generated/src/Helper.cpp
         generated/include/Helper.h
+        Objects/Computer.cpp
+        Objects/Computer.h
 )
 
 
