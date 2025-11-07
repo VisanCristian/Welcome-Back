@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.26)
+cmake_minimum_required(VERSION 3.5)
 
 # NOTE: update executable name in .github/workflows/cmake.yml:25 when changing executable name in this file
 # for now, the project name is used as the executable name
@@ -22,6 +22,38 @@ include(cmake/CopyHelper.cmake)
 ###############################################################################
 
 # external dependencies with FetchContent
+include(FetchContent)
+
+set(FETCHCONTENT_QUIET OFF)
+set(FETCHCONTENT_UPDATES_DISCONNECTED ON)
+
+# din cauza SFML
+set(WARNINGS_AS_ERRORS OFF)
+
+# NOTE: Also update SFML_VERSION env var in .github/workflows/cmake.yml:33
+FetchContent_Declare(
+        SFML
+        GIT_REPOSITORY https://github.com/SFML/SFML.git
+        GIT_TAG        3.0.0
+        # GIT_TAG        7f1162dfea4969bc17417563ac55d93b72e84c1e # 3.0.0
+        # GIT_TAG        origin/master
+        GIT_SHALLOW    1  # works only with branches or tags, not with arbitrary commit hashes
+)
+
+FetchContent_MakeAvailable(SFML)
+
+###############################################################################
+
+# external dependencies with find_package
+
+find_package(Threads REQUIRED)
+if(APPLE)
+elseif(UNIX)
+    find_package(X11)
+endif()
+
+
+
 # include(FetchContent)
 #
 # set(FETCHCONTENT_QUIET OFF)
@@ -60,6 +92,18 @@ add_executable(${MAIN_EXECUTABLE_NAME}
         Objects/buttonsInOrder.h
         Objects/tagZones.cpp
         Objects/tagZones.h
+        generated/src/Helper.cpp
+        generated/src/Helper.cpp
+        generated/include/Helper.h
+)
+
+
+target_link_libraries(${MAIN_EXECUTABLE_NAME}
+    PRIVATE
+        SFML::Graphics
+        SFML::Window
+        SFML::System
+        SFML::Audio
 )
 
 # NOTE: Add all defined targets (e.g. executables, libraries, etc. )
@@ -78,6 +122,13 @@ set_compiler_flags(RUN_SANITIZERS TRUE TARGET_NAMES ${MAIN_EXECUTABLE_NAME})
 # target_link_libraries(${MAIN_EXECUTABLE_NAME} <SomeLib>)
 
 ###############################################################################
+
+# use SYSTEM so cppcheck and clang-tidy do not report warnings from these directories
+target_include_directories(${MAIN_EXECUTABLE_NAME} SYSTEM PRIVATE generated/include)
+# target_include_directories(${MAIN_EXECUTABLE_NAME} SYSTEM PRIVATE ext/<SomeHppLib>/include)
+target_include_directories(${MAIN_EXECUTABLE_NAME} SYSTEM PRIVATE ${SFML_SOURCE_DIR}/include)
+target_link_directories(${MAIN_EXECUTABLE_NAME} PRIVATE ${SFML_BINARY_DIR}/lib)
+target_link_libraries(${MAIN_EXECUTABLE_NAME} PRIVATE SFML::Graphics SFML::Window SFML::System Threads::Threads)
 
 # copy binaries to "bin" folder; these are uploaded as artifacts on each release
 # DESTINATION_DIR is set as "bin" in cmake/Options.cmake:6

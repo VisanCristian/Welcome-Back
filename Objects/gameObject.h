@@ -25,7 +25,8 @@ class gameObject {
     static void timerThread(Puzzle &puzzle);
 
     static std::string generateFinalKey(const std::vector<std::string> &keys);
-
+    static void gameOver(const std::string &reason);
+    static void winGame(const std::string& finalKey);
 public:
 
     gameObject(const std::string& name, int difficulty, const Player &player);
@@ -36,8 +37,6 @@ public:
     friend std::ostream& operator<<(std::ostream& os, const gameObject& obj);
 
     void start();
-    static void gameOver(const std::string &reason);
-    static void winGame(const std::string& finalKey);
 
     [[nodiscard]] int getDifficulty() const { return difficulty;};
 
