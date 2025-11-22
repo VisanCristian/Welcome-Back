@@ -6,25 +6,29 @@
 
 Player::Player(const Player &other) {
     this->keys = other.keys;
-    this->attemptsLeft = other.attemptsLeft;
+    this->pointsTotal = other.pointsTotal;
     this->finalKey = other.finalKey;
 }
 
 Player & Player::operator=(const Player &other) {
     if (this != &other) {
         this->keys = other.keys;
-        this->attemptsLeft = other.attemptsLeft;
+        this->pointsTotal = other.pointsTotal;
         this->finalKey = other.finalKey;
     }
     return *this;
 }
 
 
-Player::Player(int attemptLeft) : attemptsLeft(attemptLeft) {};
+Player::Player() = default;
 Player::~Player() = default;
 
 void Player::addKey(const std::string& key) {
     keys.push_back(key);
+}
+
+int Player::getPoints() const {
+    return pointsTotal;
 }
 
 const std::string& Player::getFinalKey() const{
@@ -35,13 +39,6 @@ void Player::setFinalKey(const std::string& key) {
     finalKey = key;
 }
 
-int Player::getAttemptsLeft() const {
-    return attemptsLeft;
-}
-
-void Player::setAttemptsLeft(const int attempts) {
-    attemptsLeft = attempts;
-}
 
 std::ostream& operator<<(std::ostream& os,  const Player& player) {
     os << "Player keys: \n";

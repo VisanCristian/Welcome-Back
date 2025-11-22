@@ -6,17 +6,20 @@
 #define OOP_GAMEOBJECT_H
 
 #include <string>
+
+#include "Computer.h"
 #include "Puzzle.h"
 #include "Player.h"
 
 
 class gameObject {
     std::string name;
+    std::chrono::steady_clock::time_point startTime;
+    int keyPrice;
     int puzzleNr;
-    int solvedPuzzles;
-    int difficulty;
-
+    int milestone;
     Player player;
+    Computer computer;
 
     void checkPoint();
     void genPuzzle(Puzzle& puzzle);
@@ -27,9 +30,11 @@ class gameObject {
     static std::string generateFinalKey(const std::vector<std::string> &keys);
     static void gameOver(const std::string &reason);
     static void winGame(const std::string& finalKey);
+    void setKeyPrice();
+    std::string generateKey();
 public:
 
-    gameObject(const std::string& name, int difficulty, const Player &player);
+    gameObject(const std::string& name, const Player &player, const Computer& Computer);
     gameObject(const gameObject& other);
     ~gameObject();
 
@@ -38,7 +43,8 @@ public:
 
     void start();
 
-    [[nodiscard]] int getDifficulty() const { return difficulty;};
+    [[nodiscard]] int getDifficulty() const { return milestone;};
+    [[nodiscard]] std::chrono::steady_clock::time_point getTime() const;
 
 };
 

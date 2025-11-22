@@ -3,6 +3,9 @@
 //
 
 #include "gameObject.h"
+
+#include <algorithm>
+
 #include "Puzzle.h"
 #include "buttonsInOrder.h"
 #include "tagZones.h"
@@ -15,31 +18,27 @@
 
 // Constructor
 
-gameObject::gameObject(const std::string& name, const int difficulty, const Player &player) : name(name),difficulty(difficulty), player(player) {
+gameObject::gameObject(const std::string& name, const Player &player, const Computer& Computer) : name(name), player(player), computer(computer){
     std::cout << "Game Started! In order to find out the truth about your brother you have to find all the keys by solving the puzzles. \n" << std::endl;
-    this->solvedPuzzles = 0;
-    // Constructor implementation
-    if (difficulty == 1) {
-        puzzleNr = 1;
-    } else if (difficulty == 2) {
-        puzzleNr = 2;
-    } else {
-        puzzleNr = 3;
-    }
+    this->milestone = 1;
+    this->puzzleNr = 1;
+    setKeyPrice();
 }
 
-gameObject::gameObject(const gameObject &other) : name(other.name), puzzleNr(other.puzzleNr), solvedPuzzles(other.solvedPuzzles), difficulty(other.difficulty), player(other.player) {}
+gameObject::gameObject(const gameObject &other) : name(other.name), puzzleNr(other.puzzleNr), player(other.player), computer(other.computer), milestone(other.milestone), keyPrice(other.keyPrice) {}
 
 gameObject & gameObject::operator=(const gameObject &other) {
     if (this != &other) {
         name = other.name;
         puzzleNr = other.puzzleNr;
-        solvedPuzzles = other.solvedPuzzles;
-        difficulty = other.difficulty;
+        computer = other.computer;
+        milestone = other.milestone;
         player = other.player;
     }
     return *this;
 }
+
+
 
 // Destructor
 gameObject::~gameObject() = default;
@@ -47,9 +46,8 @@ gameObject::~gameObject() = default;
 
 std::ostream& operator<<(std::ostream& os, const gameObject& obj) {
     os << "Game Object: " << obj.name << "\n";
-    os << "Difficulty Level: " << obj.difficulty << "\n";
-    os << "Total Puzzles: " << obj.puzzleNr << "\n";
-    os << "Solved Puzzles: " << obj.solvedPuzzles << "\n";
+    os << "Currently on milestone: " << obj.milestone << "\n";
+    os << "Currently you have to solve the puzzle nr : " << obj.puzzleNr << "\n";
     return os;
 }
 
@@ -103,9 +101,8 @@ void gameObject::genPuzzle(Puzzle& newPuzzle) {
         player.setAttemptsLeft(player.getAttemptsLeft() - 1);
         std::cout << "Incorrect answer! You have " << player.getAttemptsLeft() << " attempts left. Try not to get any more puzzles wrong" << std::endl;
     }else {
-        solvedPuzzles++;
         newPuzzle.setSolved(true);
-        std::cout << "Correct answer! You have solved " << solvedPuzzles << " puzzles." << std::endl;
+        std::cout << "You have solved the puzzle. You have been awarded" << newPuzzle.getPoints() << " points." << std::endl;
         player.addKey(newPuzzle.getKey());
     }
 }
@@ -114,17 +111,29 @@ void gameObject::genPuzzle(Puzzle& newPuzzle) {
 
 
 void gameObject::checkPoint() {
-    // Checks the current state of the game
-    std::cout << "CheckPoint" << std::endl;
-    std::cout << player;
-    if (solvedPuzzles == puzzleNr) {
-        player.setFinalKey(generateFinalKey(player.getKeys()));
-        winGame(player.getFinalKey());
-        exit(0);
+    if (player.getPoints() < keyPrice) {
+        gameOver("You don't have enough points to buy a key!");
+        exit(1);
     }
+    computer.buyKey(player);
+    setKeyPrice();
+    std::cout << "You have succesfully completed this milestone and bought key#" << milestone << std::end;
+    milestone++;
+}
 
-    std::cout << "You are currently on puzzle: " << solvedPuzzles + 1 << " out of " << puzzleNr << std::endl;
-
+std::string generateKey() {
+    std::string key;
+    key.resize(16);
+    for (int i = 0; i < 10; i++) {
+        key[i] = '0' + i;
+    }
+    for (int i = 0; i < 6; i++) {
+        key[10 + i] = 'a' + i;
+    }
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::ranges::shuffle(key, gen);
+    return key;
 }
 
 std::string gameObject::generateFinalKey(const std::vector<std::string> &keys) {
@@ -146,23 +155,26 @@ void gameObject::winGame(const std::string& finalKey) {
     exit(0);
 }
 
+void gameObject::setKeyPrice() {
+    std::unordered_map<int, int> keyPrices {
+        {1, 100},
+        {2, 200},
+        {3, 450},
+        {4, 750},
+        {5, 1000},
+        {6, 1500}
+    };
+    keyPrice = keyPrices[milestone];
+}
+
 
 void gameObject::start() {
-    while (solvedPuzzles <= puzzleNr) {
-        checkPoint();
+    computer.genPuzzle();
+}
 
-        std::random_device rd;
-        std::mt19937 gen(rd());
-        std::uniform_int_distribution<int> dist(0, 100);
-        if (dist(gen) % 2 == 0) {
-            buttonsInOrder tmp(10);
-            genPuzzle(tmp);
-        } else {
-            tagZones tmp(10);
-            genPuzzle(tmp);
-        }
-
-    }
+std::chrono::steady_clock::time_point gameObject::getTime() const {
+    std::chrono::steady_clock::time_point now;
+    return std::chrono::steady_clock::time_point(now - this->startTime);
 }
 
 

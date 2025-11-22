@@ -12,24 +12,23 @@
 
 class Player {
     std::vector<std::string> keys;
-    int attemptsLeft;
+    int pointsTotal;
     std::string finalKey;
 public:
-    Player() {this->attemptsLeft = 0;};
+    Player();
     Player(const Player& other);
-    explicit Player(int attemptsLeft);
     ~Player();
 
 
     Player& operator=(const Player& other);
-    std::vector<std::string>& getKeys() {return keys;}
 
+    std::vector<std::string>& getKeys() {return keys;}
     const std::string& getFinalKey() const;
     void setFinalKey(const std::string &key);
     void addKey(const std::string& key);
-    int getAttemptsLeft() const;
-    void setAttemptsLeft(const int attempts);
 
+    int getPoints() const;
+    void setPoints(const int points);
 
 
     friend std::ostream& operator<<(std::ostream& os,  const Player& player);
