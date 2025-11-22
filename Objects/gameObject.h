@@ -6,9 +6,9 @@
 #define OOP_GAMEOBJECT_H
 
 #include <string>
+#include <chrono>
 
 #include "Computer.h"
-#include "Puzzle.h"
 #include "Player.h"
 
 
@@ -22,10 +22,6 @@ class gameObject {
     Computer computer;
 
     void checkPoint();
-    void genPuzzle(Puzzle& puzzle);
-
-    static void inputThread(Puzzle &puzzle, std::vector<int> &answer);
-    static void timerThread(Puzzle &puzzle);
 
     static std::string generateFinalKey(const std::vector<std::string> &keys);
     static void gameOver(const std::string &reason);

@@ -15,6 +15,15 @@ Computer::Computer(const Player &player) : player(player) {
 
 Computer::~Computer() = default;
 
+std::string Computer::buyKey(Player& player) {
+    (void)player;
+    return {};
+}
+
+void Computer::timerThread(Puzzle &puzzle) {
+    (void)puzzle;
+}
+
 void Computer::generatePuzzle(int milestone) {
 
     std::random_device rd;
@@ -46,7 +55,7 @@ void Computer::generatePuzzle(int milestone) {
 
 void Computer::eventLoop(int milestone) {
     generatePuzzle(milestone);
-    newPuzzle->setAnswer(getUserInput());
+    newPuzzle->setAnswer(newPuzzle->getUserInput());
 
     if (newPuzzle->checkAnswer() == 1) {
         std::cout << "You have solved this puzzle. You have been awarded " << newPuzzle->getPoints() << " points." << std::endl;

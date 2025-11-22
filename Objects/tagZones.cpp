@@ -26,6 +26,13 @@ void tagZones::generatePuzzle() {
 
 }
 
+std::vector<int> tagZones::getUserInput() {
+    for (int i = 0; i < 3 * 3; i++) {
+        std::cin >> userAnswer[i];
+    }
+    return userAnswer;
+}
+
 std::vector<int> tagZones::getAnswer() {
     std::ifstream fin("rightAnswears.txt");
     std::vector<int> Answer(3 * 3, -1);

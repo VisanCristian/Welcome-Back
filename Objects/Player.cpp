@@ -20,7 +20,7 @@ Player & Player::operator=(const Player &other) {
 }
 
 
-Player::Player() = default;
+Player::Player() : pointsTotal(0) {}
 Player::~Player() = default;
 
 void Player::addKey(const std::string& key) {
@@ -29,6 +29,10 @@ void Player::addKey(const std::string& key) {
 
 int Player::getPoints() const {
     return pointsTotal;
+}
+
+void Player::setPoints(const int points) {
+    pointsTotal = points;
 }
 
 const std::string& Player::getFinalKey() const{

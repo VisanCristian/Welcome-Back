@@ -14,12 +14,19 @@ protected:
     void setCorrectAnswer();
 public:
 
-    explicit tagZones(const int timeLimit) : timeLimit(timeLimit) {tagZones::generatePuzzle(); generateKey(); setCorrectAnswer(); userAnswer.resize(9);};
+    explicit tagZones(const int timeLimit) : timeLimit(timeLimit) {
+        points = 10;
+        tagZones::generatePuzzle();
+        generateKey();
+        setCorrectAnswer();
+        userAnswer.resize(9);
+    };
     ~tagZones() override = default;
 
     friend std::ostream& operator<<(std::ostream& os, const tagZones& obj);
 
     std::vector<int> getAnswer() override;
+    std::vector<int> getUserInput() override;
     void setAnswer(const std::vector<int>& Answer) override;
     int getTimeLimit() const override{return this->timeLimit;};
     [[nodiscard]] bool checkAnswer() const override;

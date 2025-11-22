@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <fstream>
 
+using namespace std;
 
 void Puzzle::generateKey() {
     key.resize(16);
@@ -23,9 +24,13 @@ void Puzzle::generateKey() {
 
 Puzzle::Puzzle(){
     this->solved = false;
+    this->timeUp = false;
     generateKey();
 }
 
+int Puzzle::getPoints() const {
+    return points;
+}
 
 std::ostream& operator<<(std::ostream& os, const Puzzle& obj) {
     os << "Puzzle: \n";

@@ -26,6 +26,13 @@ void buttonsInOrder::generatePuzzle() {
     fout << std::endl;
 }
 
+std::vector<int> buttonsInOrder::getUserInput() {
+    for (int i = 0; i < 10; i++) {
+        std::cin >> userAnswer[i];
+    }
+    return userAnswer;
+}
+
 void buttonsInOrder::setCorrectAnswer() {
     this->correctAnswer = puzzle;
 }

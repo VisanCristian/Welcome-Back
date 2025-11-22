@@ -14,12 +14,19 @@ class buttonsInOrder : public Puzzle {
     void setCorrectAnswer();
 
 public:
-    explicit buttonsInOrder(const int timeLimit) : timeLimit(timeLimit) {buttonsInOrder::generatePuzzle(); generateKey(); setCorrectAnswer(); userAnswer.resize(10);};
+    explicit buttonsInOrder(const int timeLimit) : timeLimit(timeLimit) {
+        points = 5;
+        buttonsInOrder::generatePuzzle();
+        generateKey();
+        setCorrectAnswer();
+        userAnswer.resize(10);
+    };
     ~buttonsInOrder() override = default;
 
     friend std::ostream& operator<<(std::ostream& os, const buttonsInOrder& obj);
 
     std::vector<int> getAnswer() override;
+    std::vector<int> getUserInput() override;
     void setAnswer(const std::vector<int>& Answer) override;
     int getTimeLimit() const override{return this->timeLimit;};
 

@@ -5,20 +5,15 @@
 #include "gameObject.h"
 
 #include <algorithm>
-
-#include "Puzzle.h"
-#include "buttonsInOrder.h"
-#include "tagZones.h"
 #include <iostream>
-#include <thread>
-#include <chrono>
 #include <random>
+#include <unordered_map>
 
 
 
 // Constructor
 
-gameObject::gameObject(const std::string& name, const Player &player, const Computer& Computer) : name(name), player(player), computer(computer){
+gameObject::gameObject(const std::string& name, const Player &player, const Computer& Computer) : name(name), player(player), computer(Computer){
     std::cout << "Game Started! In order to find out the truth about your brother you have to find all the keys by solving the puzzles. \n" << std::endl;
     this->milestone = 1;
     this->puzzleNr = 1;
@@ -50,66 +45,6 @@ std::ostream& operator<<(std::ostream& os, const gameObject& obj) {
     os << "Currently you have to solve the puzzle nr : " << obj.puzzleNr << "\n";
     return os;
 }
-
-
-void gameObject::inputThread(Puzzle &puzzle, std::vector<int> &answer) {
-    answer = puzzle.getAnswer();
-    puzzle.setAnswer(answer);
-    puzzle.setSolved(true);
-}
-
-void gameObject::timerThread(Puzzle &puzzle) {
-    for (int i = 0; i < 10 * puzzle.getTimeLimit(); i++) {
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
-        if (puzzle.getSolved() == true) return;
-    }
-    if (puzzle.getSolved() == false) {
-        puzzle.setTimeUp(true);
-    }
-}
-
-void gameObject::genPuzzle(Puzzle& newPuzzle) {
-
-    newPuzzle.setSolved(false);
-    newPuzzle.setTimeUp(false);
-
-    std::vector<int> userAnswer;
-
-    std::thread input(inputThread, std::ref(newPuzzle), std::ref(userAnswer));
-    std::thread timer(timerThread, std::ref(newPuzzle));
-
-
-    while (true) {
-        if (newPuzzle.getSolved() == true) {break;}
-        if (newPuzzle.getTimeUp() == true) {
-            gameOver("Time is up!");
-
-            std::exit(0);
-        }
-        std::this_thread::sleep_for(std::chrono::milliseconds(150));
-    }
-
-    std::cout << newPuzzle;
-
-    input.join();
-    timer.join();
-
-    if (newPuzzle.checkAnswer() == 0 && player.getAttemptsLeft() == 0) {
-        gameOver("Your answer is incorrect");
-        exit(0);
-    } else if (newPuzzle.checkAnswer() == 0 && player.getAttemptsLeft() > 0) {
-        player.setAttemptsLeft(player.getAttemptsLeft() - 1);
-        std::cout << "Incorrect answer! You have " << player.getAttemptsLeft() << " attempts left. Try not to get any more puzzles wrong" << std::endl;
-    }else {
-        newPuzzle.setSolved(true);
-        std::cout << "You have solved the puzzle. You have been awarded" << newPuzzle.getPoints() << " points." << std::endl;
-        player.addKey(newPuzzle.getKey());
-    }
-}
-
-
-
-
 void gameObject::checkPoint() {
     if (player.getPoints() < keyPrice) {
         gameOver("You don't have enough points to buy a key!");
@@ -117,11 +52,11 @@ void gameObject::checkPoint() {
     }
     computer.buyKey(player);
     setKeyPrice();
-    std::cout << "You have succesfully completed this milestone and bought key#" << milestone << std::end;
+    std::cout << "You have succesfully completed this milestone and bought key#" << milestone << std::endl;
     milestone++;
 }
 
-std::string generateKey() {
+std::string gameObject::generateKey() {
     std::string key;
     key.resize(16);
     for (int i = 0; i < 10; i++) {
@@ -169,7 +104,7 @@ void gameObject::setKeyPrice() {
 
 
 void gameObject::start() {
-    computer.genPuzzle();
+    computer.eventLoop(milestone);
 }
 
 std::chrono::steady_clock::time_point gameObject::getTime() const {
