@@ -17,7 +17,6 @@ public:
     explicit buttonsInOrder(const int timeLimit) : timeLimit(timeLimit) {
         points = 5;
         buttonsInOrder::generatePuzzle();
-        generateKey();
         setCorrectAnswer();
         userAnswer.resize(10);
     };

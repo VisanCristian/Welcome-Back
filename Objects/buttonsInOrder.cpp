@@ -73,16 +73,5 @@ std::ostream& operator<<(std::ostream& os, const buttonsInOrder& obj) {
     }
     os << std::endl;
 
-    os << "Puzzle Key: ";
-    for (const auto& ch : obj.key) {
-        os << ch;
-    }
-    os << "\n";
-    os << "User Answer: ";
-    for (unsigned long int i = 0; i < obj.userAnswer.size(); i++) {
-        os << obj.userAnswer[i] << " ";
-    }
-    os << "\n";
-
     return os;
 }

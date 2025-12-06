@@ -14,13 +14,13 @@ class Computer {
     Puzzle*  newPuzzle = nullptr;
 
 public:
-    Computer(const Player& player);
+    Computer();
     ~Computer();
 
 
     void generatePuzzle(int milestone);
-    void eventLoop(int milestone);
-    std::string buyKey(Player& player);
+    void eventLoop(int milestone, Player& player);
+    std::string getKey();
     static void timerThread(Puzzle &puzzle);
 
 };

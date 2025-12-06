@@ -106,12 +106,6 @@ std::ostream& operator<<(std::ostream& os, const tagZones& obj) {
         os << std::endl;
     }
     os << std::endl;
-
-    os << "Puzzle Key: ";
-    for (const auto& ch : obj.key) {
-        os << ch;
-    }
-    os << "\n";
     os << "In order to solve this puzzle you need to tag each zone such that in the end, the biggest tag is the number of independent zones" << std::endl;
     os << "2 blocks form a zone if they are adjacent (up down, left right)" << std::endl;
     os << "User Answer: \n";

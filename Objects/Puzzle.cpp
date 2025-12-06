@@ -9,23 +9,9 @@
 
 using namespace std;
 
-void Puzzle::generateKey() {
-    key.resize(16);
-    for (int i = 0; i < 10; i++) {
-        key[i] = '0' + i;
-    }
-    for (int i = 0; i < 6; i++) {
-        key[10 + i] = 'a' + i;
-    }
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::ranges::shuffle(key, gen);
-}
-
 Puzzle::Puzzle(){
     this->solved = false;
     this->timeUp = false;
-    generateKey();
 }
 
 int Puzzle::getPoints() const {
@@ -39,16 +25,6 @@ std::ostream& operator<<(std::ostream& os, const Puzzle& obj) {
     }
     os << std::endl;
 
-    os << "Puzzle Key: ";
-    for (const auto& ch : obj.key) {
-        os << ch;
-    }
-    os << "\n";
-    os << "User Answer: \n";
-    for (unsigned long int i = 0; i < obj.userAnswer.size(); i++) {
-        os << obj.userAnswer[i] << " ";
-    }
-    os << "\n";
 
     return os;
 }

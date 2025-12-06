@@ -50,26 +50,14 @@ void gameObject::checkPoint() {
         gameOver("You don't have enough points to buy a key!");
         exit(1);
     }
-    computer.buyKey(player);
+    std::string key = computer.getKey();
+    player.setPoints(player.getPoints() - keyPrice);
+    player.addKey(key);
     setKeyPrice();
-    std::cout << "You have succesfully completed this milestone and bought key#" << milestone << std::endl;
+    std::cout << "You have succesfully completed this milestone and bought key #" << milestone << " : " << key << std::endl;
     milestone++;
 }
 
-std::string gameObject::generateKey() {
-    std::string key;
-    key.resize(16);
-    for (int i = 0; i < 10; i++) {
-        key[i] = '0' + i;
-    }
-    for (int i = 0; i < 6; i++) {
-        key[10 + i] = 'a' + i;
-    }
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::ranges::shuffle(key, gen);
-    return key;
-}
 
 std::string gameObject::generateFinalKey(const std::vector<std::string> &keys) {
     std::string finalKey;
@@ -92,19 +80,28 @@ void gameObject::winGame(const std::string& finalKey) {
 
 void gameObject::setKeyPrice() {
     std::unordered_map<int, int> keyPrices {
-        {1, 100},
-        {2, 200},
-        {3, 450},
-        {4, 750},
-        {5, 1000},
-        {6, 1500}
+        {1, 5},
+        {2, 10},
+        {3, 15},
+        {4, 20},
+        {5, 25},
+        {6, 30}
     };
     keyPrice = keyPrices[milestone];
 }
 
 
 void gameObject::start() {
-    computer.eventLoop(milestone);
+    while (true) {
+        computer.eventLoop(milestone, player);
+        std::cout << "The milestone is over and the player has " << player.getPoints() << " points." << std::endl;
+        checkPoint();
+        if(milestone ==7) {
+            player.setFinalKey(generateFinalKey(player.getKeys()));
+            winGame(player.getFinalKey());
+            exit(0);
+        }
+    }
 }
 
 std::chrono::steady_clock::time_point gameObject::getTime() const {

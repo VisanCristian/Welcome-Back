@@ -17,7 +17,6 @@ public:
     explicit tagZones(const int timeLimit) : timeLimit(timeLimit) {
         points = 10;
         tagZones::generatePuzzle();
-        generateKey();
         setCorrectAnswer();
         userAnswer.resize(9);
     };

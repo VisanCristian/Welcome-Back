@@ -13,7 +13,7 @@ using namespace std;
 
 int main() {
     Player player1;              
-    Computer computer(player1);
+    Computer computer;
     gameObject game("nume", player1, computer);
     game.start();
 

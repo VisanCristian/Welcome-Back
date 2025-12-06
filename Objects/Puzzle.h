@@ -20,10 +20,8 @@ protected:
     std::vector<int> correctAnswer;
 
     //std::string puzzleType;
-    std::string key;
     std::atomic<bool> solved;
     std::atomic<bool> timeUp;
-    void generateKey();
     virtual void generatePuzzle() = 0;
 	
     
@@ -45,7 +43,6 @@ public:
     bool getSolved() const;
     void setTimeUp(const bool status);
     bool getTimeUp() const;
-    const std::string& getKey() const { return key; }
 
 
 
