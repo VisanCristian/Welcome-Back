@@ -68,8 +68,8 @@ std::vector<int> PathFinding::getUserInput() {
     int endRow = height - 1;
     int endCol = width - 1;
 
-    int dr[4] = {-1, 1, 0, 0};
-    int dc[4] = {0, 0, -1, 1};
+    const int dr[4] = {-1, 1, 0, 0};
+    const int dc[4] = {0, 0, -1, 1};
 
     std::queue<int> q;
     int startIndex = startRow * width + startCol;

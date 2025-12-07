@@ -11,7 +11,6 @@
 #include <memory>
 
 class Computer {
-    bool puzzleInProgress;
     Player player;
     std::shared_ptr<Puzzle> newPuzzle;
 
@@ -25,7 +24,7 @@ public:
 
     Result<std::vector<std::shared_ptr<Puzzle>>, ConstructorError> generatePuzzle(int milestone);
     void eventLoop(int milestone, Player& player);
-    Result<std::string, GameError> getKey() const;
+    static Result<std::string, GameError> getKey();
     static void timerThread(Puzzle &puzzle);
 
 };

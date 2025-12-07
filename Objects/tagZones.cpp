@@ -15,14 +15,14 @@
 void tagZones::generatePuzzle() {
     size_t puzzleSize = userAnswer.size();
     puzzle.resize(puzzleSize);
-    for (int i = 0; i < puzzleSize; i++) {
+    for (int i = 0; i < static_cast<int>(puzzleSize); i++) {
         puzzle[i] = i;
     }
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<int> dist(0, 1);
 
-    for (int i = 0; i < puzzleSize; i++) {
+    for (int i = 0; i < static_cast<int>(puzzleSize); i++) {
         puzzle[i] = (dist(gen) == 0) ? 0 : -1;
     }
 
@@ -107,13 +107,6 @@ void tagZones::print(std::ostream& os) const {
     os << std::endl;
     os << "In order to solve this puzzle you need to tag each zone such that in the end, the biggest tag is the number of independent zones" << std::endl;
     os << "2 blocks form a zone if they are adjacent (up down, left right)" << std::endl;
-    os << "User Answer: \n";
-    for (int i = 0; i < 3; i++) {
-        for (int j = 0; j < 3; j++) {
-            os << userAnswer[i * 3 + j] << " ";
-        }
-        os << std::endl;
-    }
     os << "\n";
 }
 

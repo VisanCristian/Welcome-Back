@@ -4,9 +4,7 @@
 
 #include "gameObject.h"
 #include "GameErrors.h"
-#include <algorithm>
 #include <iostream>
-#include <random>
 
 
 
@@ -133,11 +131,4 @@ void gameObject::start() {
         gameOver(e.what());
     }
 }
-
-std::chrono::steady_clock::time_point gameObject::getTime() const {
-    std::chrono::steady_clock::time_point now;
-    return std::chrono::steady_clock::time_point(now - this->startTime);
-}
-
-
 

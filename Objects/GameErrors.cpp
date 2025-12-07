@@ -54,15 +54,6 @@ bool Result<S, E>::isOk() const {
     return success;
 }
 
-template<typename type>
-Ok<type>::Ok(const type &value) : value(value) {}
-
-template<typename type>
-const type& Ok<type>::getValue() const {
-    return value;
-}
-
-// Explicit instantiation for the Result type used in the codebase
 template class Result<std::string, GameError>;
 template class Result<bool, GameError>;
 template class Result<bool, ConstructorError>;

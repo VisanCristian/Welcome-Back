@@ -39,8 +39,6 @@ public:
 
     void start();
 
-    [[nodiscard]] int getDifficulty() const { return milestone;};
-    [[nodiscard]] std::chrono::steady_clock::time_point getTime() const;
 
 };
 

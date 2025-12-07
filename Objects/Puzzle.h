@@ -44,10 +44,7 @@ public:
 
     [[nodiscard]] virtual int getPoints() const;
 
-    void setSolved(const bool status);
-    bool getSolved() const;
     void setTimeUp(const bool status);
-    bool getTimeUp() const;
 
 
 

@@ -44,18 +44,6 @@ std::ostream& operator<<(std::ostream& os, const Puzzle& obj) {
     return os;
 }
 
-void Puzzle::setSolved(const bool status) {
-    solved.store(status);
-}
-
-bool Puzzle::getSolved() const {
-    return solved.load();
-}
-
 void Puzzle::setTimeUp(const bool status) {
     timeUp.store(status);
-}
-
-bool Puzzle::getTimeUp() const {
-    return timeUp.load();
 }

@@ -13,13 +13,10 @@
 #include "tagZones.h"
 #include "PathFinding.h"
 
-Computer::Computer(){
-    this->puzzleInProgress = false;
-}
+Computer::Computer() = default;
 
 Computer::Computer(const Computer& other)
-    : puzzleInProgress(other.puzzleInProgress),
-      player(other.player),
+    :player(other.player),
       newPuzzle(other.newPuzzle
                 ? std::shared_ptr<Puzzle>(other.newPuzzle->clone().release())
                 : nullptr) {}
@@ -28,7 +25,6 @@ Computer::~Computer() = default;
 
 void swap(Computer& a, Computer& b) noexcept {
     using std::swap;
-    swap(a.puzzleInProgress, b.puzzleInProgress);
     swap(a.player, b.player);
     swap(a.newPuzzle, b.newPuzzle);
 }
@@ -38,7 +34,7 @@ Computer& Computer::operator=(Computer other) {
     return *this;
 }
 
-Result<std::string, GameError> Computer::getKey() const {
+Result<std::string, GameError> Computer::getKey(){
     std::string key;
     key.resize(16);
     for (int i = 0; i < 10; i++) {
@@ -84,7 +80,6 @@ Result<std::vector<std::shared_ptr<Puzzle>>, ConstructorError> Computer::generat
 
         if (tier == "T1") {
             newPuzzle = std::make_shared<buttonsInOrder>(60, 100, 15);
-            newPuzzle->setSolved(false);
             newPuzzle->setTimeUp(false);
             puzzles.push_back(newPuzzle);
         } else if (tier == "T2") {
@@ -97,7 +92,6 @@ Result<std::vector<std::shared_ptr<Puzzle>>, ConstructorError> Computer::generat
             } else {
                 newPuzzle = std::make_shared<PathFinding>(60, 200, 20);
             }
-            newPuzzle->setSolved(false);
             newPuzzle->setTimeUp(false);
             puzzles.push_back(newPuzzle);
         } else if (tier == "T3") {
@@ -110,7 +104,6 @@ Result<std::vector<std::shared_ptr<Puzzle>>, ConstructorError> Computer::generat
             } else {
                 newPuzzle = std::make_shared<PathFinding>(60, 300, 20);
             }
-            newPuzzle->setSolved(false);
             newPuzzle->setTimeUp(false);
             puzzles.push_back(newPuzzle);
 
@@ -119,7 +112,6 @@ Result<std::vector<std::shared_ptr<Puzzle>>, ConstructorError> Computer::generat
             } else {
                 newPuzzle = std::make_shared<PathFinding>(60, 300, 25);
             }
-            newPuzzle->setSolved(false);
             newPuzzle->setTimeUp(false);
             puzzles.push_back(newPuzzle);
         } else {
