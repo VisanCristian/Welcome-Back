@@ -17,7 +17,7 @@ PathFinding::PathFinding(int timeLimit, int points, int size) : timeLimit(timeLi
     this->points = points;
     userAnswer.resize(size);
 
-    generatePuzzle();
+    PathFinding::generatePuzzle();
     setCorrectAnswer();
 }
 
@@ -99,9 +99,9 @@ std::vector<int> PathFinding::getUserInput() {
         for (int i = 0; i < 4; ++i) {
             int nr = r + dr[i];
             int nc = c + dc[i];
-            int nIdx = nr * width + nc;
 
             if (nr >= 0 && nr < height && nc >= 0 && nc < width) {
+                int nIdx = nr * width + nc;
                 if (this->puzzle[nr * width + nc] != -1 && !visited[nIdx]) {
                     visited[nIdx] = true;
                     parents[nIdx] = currentIdx;

@@ -25,7 +25,6 @@ public:
     Result<std::vector<std::shared_ptr<Puzzle>>, ConstructorError> generatePuzzle(int milestone);
     void eventLoop(int milestone, Player& player);
     static Result<std::string, GameError> getKey();
-    static void timerThread(Puzzle &puzzle);
 
 };
 

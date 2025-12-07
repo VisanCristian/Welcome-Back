@@ -49,10 +49,6 @@ Result<std::string, GameError> Computer::getKey(){
     return Result<std::string, GameError>::OkResult(key);
 }
 
-void Computer::timerThread(Puzzle &puzzle) {
-    (void)puzzle;
-}
-
 Result<std::vector<std::shared_ptr<Puzzle>>, ConstructorError> Computer::generatePuzzle(int milestone) {
 
     std::ifstream fin("assets/PuzzleDecks");
