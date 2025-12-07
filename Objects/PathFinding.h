@@ -1,13 +1,14 @@
 //
-// Created by visan on 11/2/25.
+// Created by visan on 12/7/25.
 //
 
-#ifndef OOP_BUTTONSINORDER_H
-#define OOP_BUTTONSINORDER_H
+#ifndef OOP_PATHFINDING_H
+#define OOP_PATHFINDING_H
 
 #include "Puzzle.h"
 
-class buttonsInOrder : public Puzzle {
+class PathFinding : public Puzzle {
+protected:
     int timeLimit;
 
     void generatePuzzle() override;
@@ -15,15 +16,10 @@ class buttonsInOrder : public Puzzle {
     void print(std::ostream& os) const override;
 
 public:
-    buttonsInOrder(const int timeLimit, const int points, const int size) : timeLimit(timeLimit) {
-        this->points = points;
-        userAnswer.resize(size);
-        buttonsInOrder::generatePuzzle();
-        setCorrectAnswer();
-    };
-    ~buttonsInOrder() override = default;
+    PathFinding(int timeLimit, int points, int size);
+    ~PathFinding() override = default;
 
-    friend std::ostream& operator<<(std::ostream& os, const buttonsInOrder& obj);
+    friend std::ostream& operator<<(std::ostream& os, const PathFinding& obj);
 
     [[nodiscard]] std::unique_ptr<Puzzle> clone() const override;
 
@@ -31,10 +27,8 @@ public:
     std::vector<int> getUserInput() override;
     void setAnswer(const std::vector<int>& Answer) override;
     int getTimeLimit() const override { return this->timeLimit; };
-
     [[nodiscard]] bool checkAnswer() const override;
-
 };
 
 
-#endif //OOP_BUTTONSINORDER_H
+#endif //OOP_PATHFINDING_H

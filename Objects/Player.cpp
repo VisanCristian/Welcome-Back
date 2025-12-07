@@ -35,7 +35,7 @@ void Player::setPoints(const int points) {
     pointsTotal = points;
 }
 
-const std::string& Player::getFinalKey() const{
+const std::string& Player::getFinalKey() const {
     return finalKey;
 }
 

@@ -92,11 +92,14 @@ add_executable(${MAIN_EXECUTABLE_NAME}
         Objects/buttonsInOrder.h
         Objects/tagZones.cpp
         Objects/tagZones.h
-        generated/src/Helper.cpp
+        Objects/PathFinding.cpp
+        Objects/PathFinding.h
         generated/src/Helper.cpp
         generated/include/Helper.h
         Objects/Computer.cpp
         Objects/Computer.h
+        Objects/GameErrors.cpp
+        Objects/GameErrors.h
 )
 
 

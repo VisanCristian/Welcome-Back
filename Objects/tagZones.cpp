@@ -5,22 +5,24 @@
 #include "tagZones.h"
 #include <algorithm>
 #include <random>
-#include <fstream>
 #include <iostream>
 #include <stack>
+#include <cmath>
+#include "GameErrors.h"
 
 
 
 void tagZones::generatePuzzle() {
-    puzzle.resize(3 * 3);
-    for (int i = 0; i < 3; i++) {
+    size_t puzzleSize = userAnswer.size();
+    puzzle.resize(puzzleSize);
+    for (int i = 0; i < puzzleSize; i++) {
         puzzle[i] = i;
     }
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<int> dist(0, 1);
 
-    for (int i = 0; i < 3 * 3; i++) {
+    for (int i = 0; i < puzzleSize; i++) {
         puzzle[i] = (dist(gen) == 0) ? 0 : -1;
     }
 
@@ -28,23 +30,20 @@ void tagZones::generatePuzzle() {
 
 std::vector<int> tagZones::getUserInput() {
     for (int i = 0; i < 3 * 3; i++) {
-        std::cin >> userAnswer[i];
+        if (!(std::cin >> userAnswer[i])) {
+            throw GameError("tagZones::getUserInput - failed to read user input");
+        }
     }
     return userAnswer;
 }
 
-std::vector<int> tagZones::getAnswer() {
-    std::ifstream fin("rightAnswears.txt");
-    std::vector<int> Answer(3 * 3, -1);
-    for (int i = 0; i < 3 * 3; i++) {
-        fin >> Answer[i];
-    }
-    return Answer;
+std::vector<int> tagZones::getAnswer() const {
+    return correctAnswer;
 }
 
 
 void tagZones::setAnswer(const std::vector<int> &Answer) {
-    std::vector<int> wrong(9, -1);
+    std::vector<int> wrong(Answer.size(), -1);
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<int> dist(0, 5);
@@ -59,37 +58,32 @@ void tagZones::setAnswer(const std::vector<int> &Answer) {
 void tagZones::setCorrectAnswer() {
     std::stack<std::pair<int,int>> posToCount;
     correctAnswer = puzzle;
-    int comp = 2; int m = 3;
-    std::ofstream fout("rightAnswears.txt");
-    for (int i = 0; i < m; i++) {
-        for (int j = 0; j < m; j++) {
-            if (correctAnswer[i * m + j] == -1) {
+    int comp = 2;
+
+    const int side = static_cast<int>(std::sqrt(static_cast<double>(userAnswer.size())));
+
+    for (int i = 0; i < side; i++) {
+        for (int j = 0; j < side; j++) {
+            if (correctAnswer[i * side + j] == -1) {
                 posToCount.push({i, j});
                 while (!posToCount.empty()) {
                     auto [x, y] = posToCount.top();
                     posToCount.pop();
 
-                    correctAnswer[x * m + y] = comp;
+                    correctAnswer[x * side + y] = comp;
 
-                    // Check neighbors with bounds
-                    if (x > 0 && correctAnswer[(x - 1) * m + y] == -1)
+                    if (x > 0 && correctAnswer[(x - 1) * side + y] == -1)
                         posToCount.push({x - 1, y});
-                    if (x < m - 1 && correctAnswer[(x + 1) * m + y] == -1)
+                    if (x < side - 1 && correctAnswer[(x + 1) * side + y] == -1)
                         posToCount.push({x + 1, y});
-                    if (y > 0 && correctAnswer[x * m + (y - 1)] == -1)
+                    if (y > 0 && correctAnswer[x * side + (y - 1)] == -1)
                         posToCount.push({x, y - 1});
-                    if (y < m - 1 && correctAnswer[x * m + (y + 1)] == -1)
+                    if (y < side - 1 && correctAnswer[x * side + (y + 1)] == -1)
                         posToCount.push({x, y + 1});
                 }
                 comp++;
             }
         }
-    }
-    for (int i = 0; i < m; i++) {
-        for (int j = 0; j < m; j++) {
-            fout << correctAnswer[i * m + j] << " ";
-        }
-        fout << std::endl;
     }
 }
 
@@ -97,11 +91,16 @@ bool tagZones::checkAnswer() const {
     return userAnswer == correctAnswer;
 }
 
-std::ostream& operator<<(std::ostream& os, const tagZones& obj) {
+std::unique_ptr<Puzzle> tagZones::clone() const {
+    return std::make_unique<tagZones>(*this);
+}
+
+void tagZones::print(std::ostream& os) const {
     os << "Puzzle: \n";
-    for (int i = 0; i < 3; i++) {
-        for (int j = 0; j < 3; j++) {
-            os << obj.puzzle[i * 3 + j] << " ";
+    int side = static_cast<int>(std::sqrt(static_cast<double>(userAnswer.size())));
+    for (int i = 0; i < side; i++) {
+        for (int j = 0; j < side; j++) {
+            os << puzzle[i * side + j] << " ";
         }
         os << std::endl;
     }
@@ -111,11 +110,14 @@ std::ostream& operator<<(std::ostream& os, const tagZones& obj) {
     os << "User Answer: \n";
     for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 3; j++) {
-            os << obj.userAnswer[i * 3 + j] << " ";
+            os << userAnswer[i * 3 + j] << " ";
         }
         os << std::endl;
     }
     os << "\n";
+}
 
+std::ostream& operator<<(std::ostream& os, const tagZones& obj) {
+    obj.print(os);
     return os;
 }

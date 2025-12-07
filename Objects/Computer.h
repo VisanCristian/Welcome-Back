@@ -6,21 +6,26 @@
 #define OOP_COMPUTER_H
 #include "Player.h"
 #include "Puzzle.h"
+#include "GameErrors.h"
 
+#include <memory>
 
 class Computer {
     bool puzzleInProgress;
     Player player;
-    Puzzle*  newPuzzle = nullptr;
+    std::shared_ptr<Puzzle> newPuzzle;
 
 public:
     Computer();
+    Computer(const Computer& other);
     ~Computer();
 
+    Computer& operator=(Computer other);
+    friend void swap(Computer& a, Computer& b) noexcept;
 
-    void generatePuzzle(int milestone);
+    Result<std::vector<std::shared_ptr<Puzzle>>, ConstructorError> generatePuzzle(int milestone);
     void eventLoop(int milestone, Player& player);
-    std::string getKey();
+    Result<std::string, GameError> getKey() const;
     static void timerThread(Puzzle &puzzle);
 
 };

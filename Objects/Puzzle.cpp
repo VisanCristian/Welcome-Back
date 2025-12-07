@@ -14,18 +14,33 @@ Puzzle::Puzzle(){
     this->timeUp = false;
 }
 
+Puzzle::Puzzle(const Puzzle& other)
+    : points(other.points),
+      puzzle(other.puzzle),
+      userAnswer(other.userAnswer),
+      correctAnswer(other.correctAnswer) {
+    solved.store(other.solved.load());
+    timeUp.store(other.timeUp.load());
+}
+
+Puzzle& Puzzle::operator=(const Puzzle& other) {
+    if (this != &other) {
+        points = other.points;
+        puzzle = other.puzzle;
+        userAnswer = other.userAnswer;
+        correctAnswer = other.correctAnswer;
+        solved.store(other.solved.load());
+        timeUp.store(other.timeUp.load());
+    }
+    return *this;
+}
+
 int Puzzle::getPoints() const {
     return points;
 }
 
 std::ostream& operator<<(std::ostream& os, const Puzzle& obj) {
-    os << "Puzzle: \n";
-    for (int i = 0; i < 10; i++) {
-        os << obj.puzzle[i] << " ";
-    }
-    os << std::endl;
-
-
+    obj.print(os);
     return os;
 }
 
@@ -40,6 +55,7 @@ bool Puzzle::getSolved() const {
 void Puzzle::setTimeUp(const bool status) {
     timeUp.store(status);
 }
+
 bool Puzzle::getTimeUp() const {
     return timeUp.load();
 }

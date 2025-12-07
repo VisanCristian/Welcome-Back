@@ -22,7 +22,7 @@ public:
 
     Player& operator=(const Player& other);
 
-    std::vector<std::string>& getKeys() {return keys;}
+    [[nodiscard]] const std::vector<std::string>& getKeys() const { return keys; }
     const std::string& getFinalKey() const;
     void setFinalKey(const std::string &key);
     void addKey(const std::string& key);

@@ -3,11 +3,10 @@
 //
 
 #include "gameObject.h"
-
+#include "GameErrors.h"
 #include <algorithm>
 #include <iostream>
 #include <random>
-#include <unordered_map>
 
 
 
@@ -20,15 +19,24 @@ gameObject::gameObject(const std::string& name, const Player &player, const Comp
     setKeyPrice();
 }
 
-gameObject::gameObject(const gameObject &other) : name(other.name), puzzleNr(other.puzzleNr), player(other.player), computer(other.computer), milestone(other.milestone), keyPrice(other.keyPrice) {}
+gameObject::gameObject(const gameObject &other)
+    : name(other.name),
+      startTime(other.startTime),
+      keyPrice(other.keyPrice),
+      puzzleNr(other.puzzleNr),
+      milestone(other.milestone),
+      player(other.player),
+      computer(other.computer) {}
 
 gameObject & gameObject::operator=(const gameObject &other) {
     if (this != &other) {
         name = other.name;
+        startTime = other.startTime;
+        keyPrice = other.keyPrice;
         puzzleNr = other.puzzleNr;
-        computer = other.computer;
         milestone = other.milestone;
         player = other.player;
+        computer = other.computer;
     }
     return *this;
 }
@@ -50,7 +58,14 @@ void gameObject::checkPoint() {
         gameOver("You don't have enough points to buy a key!");
         exit(1);
     }
-    std::string key = computer.getKey();
+
+    Result<std::string, GameError> keyResult = computer.getKey();
+    if (!keyResult.isOk()) {
+        gameOver(keyResult.getErr().what());
+        return;
+    }
+
+    const std::string &key = keyResult.getOk();
     player.setPoints(player.getPoints() - keyPrice);
     player.addKey(key);
     setKeyPrice();
@@ -80,27 +95,42 @@ void gameObject::winGame(const std::string& finalKey) {
 
 void gameObject::setKeyPrice() {
     std::unordered_map<int, int> keyPrices {
-        {1, 5},
-        {2, 10},
-        {3, 15},
-        {4, 20},
-        {5, 25},
-        {6, 30}
+        {1, 700},
+        {2, 800},
+        {3, 900},
+        {4, 1000},
+        {5, 1100},
+        {6, 1200}
     };
-    keyPrice = keyPrices[milestone];
+
+    auto it = keyPrices.find(milestone);
+    if (it == keyPrices.end()) {
+        throw GameError("gameObject::setKeyPrice - invalid milestone " + std::to_string(milestone));
+    }
+    keyPrice = it->second;
 }
 
 
 void gameObject::start() {
-    while (true) {
-        computer.eventLoop(milestone, player);
-        std::cout << "The milestone is over and the player has " << player.getPoints() << " points." << std::endl;
-        checkPoint();
-        if(milestone ==7) {
-            player.setFinalKey(generateFinalKey(player.getKeys()));
-            winGame(player.getFinalKey());
-            exit(0);
+    try {
+        while (true) {
+            computer.eventLoop(milestone, player);
+            std::cout << "The milestone is over and the player has " << player.getPoints() << " points." << std::endl;
+            checkPoint();
+            if (milestone == 7) {
+                player.setFinalKey(generateFinalKey(player.getKeys()));
+                winGame(player.getFinalKey());
+                exit(0);
+            }
         }
+    } catch (const ConstructorError &e) {
+        gameOver(e.what());
+    } catch (const GameError &e) {
+        gameOver(e.what());
+    } catch (const InternalError &e) {
+        gameOver(e.what());
+    } catch (const std::exception &e) {
+        gameOver(e.what());
     }
 }
 
