@@ -11,7 +11,6 @@
 #include <memory>
 
 class Computer {
-    Player player;
     std::shared_ptr<Puzzle> newPuzzle;
 
 public:

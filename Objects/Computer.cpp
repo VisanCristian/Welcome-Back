@@ -16,8 +16,7 @@
 Computer::Computer() = default;
 
 Computer::Computer(const Computer& other)
-    :player(other.player),
-      newPuzzle(other.newPuzzle
+    :newPuzzle(other.newPuzzle
                 ? std::shared_ptr<Puzzle>(other.newPuzzle->clone().release())
                 : nullptr) {}
 
@@ -25,7 +24,6 @@ Computer::~Computer() = default;
 
 void swap(Computer& a, Computer& b) noexcept {
     using std::swap;
-    swap(a.player, b.player);
     swap(a.newPuzzle, b.newPuzzle);
 }
 
