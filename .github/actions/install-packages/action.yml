@@ -4,7 +4,7 @@ description: 'Install required packages'
 runs:
   using: "composite"
   steps:
-    # Common Linux dependencies (Updated with SFML libs)
+    # Common Linux dependencies (Updated with COMPLETE SFML libs)
     - name: Install Linux Dependencies
       shell: bash
       if: runner.os == 'Linux'
@@ -16,7 +16,12 @@ runs:
           libxcursor-dev \
           libxi-dev \
           libudev-dev \
-          libgl1-mesa-dev
+          libgl1-mesa-dev \
+          libfreetype6-dev \
+          libopenal-dev \
+          libflac-dev \
+          libvorbis-dev \
+          libx11-dev
         # https://github.com/llvm/llvm-project/issues/78354
         sudo sysctl vm.mmap_rnd_bits=28
 
