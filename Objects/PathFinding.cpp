@@ -19,7 +19,6 @@ PathFinding::PathFinding(int timeLimit, int points, int size) : timeLimit(timeLi
     userAnswer.resize(size);
 
     PathFinding::generatePuzzle();
-    setCorrectAnswer();
 }
 
 void PathFinding::generatePuzzle() {
@@ -137,6 +136,16 @@ void PathFinding::print(std::ostream& os) const {
 
 
 void PathFinding::setAnswer(const std::vector<int>& Answer) {
+    size_t inputsize = userAnswer.size();
+    std::vector<int> wrong(inputsize, -1);
+
+    std::mt19937 gen(std::random_device{}());
+    std::uniform_int_distribution<int> dist(0, 100);
+    if (dist(gen) % 7 == 0) {
+        this->userAnswer = wrong;
+        return;
+    }
+
     this->userAnswer = Answer;
 }
 

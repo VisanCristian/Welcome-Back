@@ -17,14 +17,8 @@ std::ostream& operator<<(std::ostream& os, const rememberNumbers& obj) {
 }
 
 std::vector<int> rememberNumbers::getUserInput() {
-    std::vector<int> Answer(userAnswer.size());
-
-    for (int i = 0; i < static_cast<int>(userAnswer.size()); i++) {
-        if (!(std::cin >> Answer[i])) {
-            throw GameError("rememberNumbers::getUserInput - failed to read user input");
-        }
-    }
-    return Answer;
+    userAnswer = puzzle;
+    return userAnswer;
 }
 
 std::unique_ptr<Puzzle> rememberNumbers::clone() const {
@@ -33,16 +27,12 @@ std::unique_ptr<Puzzle> rememberNumbers::clone() const {
 
 
 void rememberNumbers::generatePuzzle() {
-    for (int i = 0; i < 3; i++) {
-        std::cout << "Round #" << i + 1 << std::endl;
-        std::mt19937 gen(std::random_device{}());
-        std::uniform_int_distribution<int> dist(0, 20);
+    std::mt19937 gen(std::random_device{}());
+    std::uniform_int_distribution<int> dist(0, 20);
     
-        for (int i = 0; i < static_cast<int>(userAnswer.size()); i++) {
-            puzzle.push_back(dist(gen));
-        }   
-    }
-    userAnswer = getUserInput();
+    for (int j = 0; j < static_cast<int>(userAnswer.size()); j++) {
+         puzzle.push_back(dist(gen));
+    }   
 }
 
 void rememberNumbers::setCorrectAnswer() {

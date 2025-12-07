@@ -39,10 +39,6 @@ int Puzzle::getPoints() const {
     return points;
 }
 
-vector<int> Puzzle::getAnswer() {
-    return userAnswer;
-}
-
 std::ostream& operator<<(std::ostream& os, const Puzzle& obj) {
     obj.print(os);
     return os;

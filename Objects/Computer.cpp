@@ -150,7 +150,7 @@ void Computer::eventLoop(int milestone, Player& player) {
             std::cout << "Pentru a rezolva puzzle-ul trebuie sa formati zone din blocuri adiacente. 2 blocuri sunt adiacente daca sunt una langa alta(inclusiv pe diagonala)\n" << std::endl;
         }
 
-        newPuzzle->setAnswer(newPuzzle->getAnswer());
+        newPuzzle->setAnswer(newPuzzle->getUserInput());
 
         if (newPuzzle->checkAnswer() == 1) {
             std::cout << "You have solved this puzzle. You have been awarded " << newPuzzle->getPoints() << " points." << std::endl;

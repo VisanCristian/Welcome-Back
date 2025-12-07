@@ -23,12 +23,8 @@ void buttonsInOrder::generatePuzzle() {
 }
 
 std::vector<int> buttonsInOrder::getUserInput() {
-    for (int i = 0; i < 10; i++) {
-        if (!(std::cin >> userAnswer[i])) {
-            throw GameError("buttonsInOrder::getUserInput - failed to read user input");
-        }
-    }
-    return userAnswer;
+    userAnswer = puzzle;
+    return puzzle;
 }
 
 void buttonsInOrder::setCorrectAnswer() {
