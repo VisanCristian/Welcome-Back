@@ -134,8 +134,9 @@ void PathFinding::print(std::ostream& os) const {
 }
 
 
-std::vector<int> PathFinding::getAnswer() const {
-    return userAnswer;
+std::vector<int> PathFinding::getAnswer(){
+    getUserInput();
+    return correctAnswer;
 }
 
 void PathFinding::setAnswer(const std::vector<int>& Answer) {

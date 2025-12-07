@@ -34,7 +34,7 @@ void buttonsInOrder::setCorrectAnswer() {
     this->correctAnswer = puzzle;
 }
 
-std::vector<int> buttonsInOrder::getAnswer() const {
+std::vector<int> buttonsInOrder::getAnswer(){
     return correctAnswer;
 }
 

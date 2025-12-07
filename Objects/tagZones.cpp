@@ -37,7 +37,7 @@ std::vector<int> tagZones::getUserInput() {
     return userAnswer;
 }
 
-std::vector<int> tagZones::getAnswer() const {
+std::vector<int> tagZones::getAnswer() {
     return correctAnswer;
 }
 

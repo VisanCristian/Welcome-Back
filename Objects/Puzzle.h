@@ -36,7 +36,7 @@ public:
 
     [[nodiscard]] virtual std::unique_ptr<Puzzle> clone() const = 0;
 
-    [[nodiscard]] virtual std::vector<int> getAnswer() const = 0;
+    [[nodiscard]] virtual std::vector<int> getAnswer() = 0;
     virtual std::vector<int> getUserInput() = 0;
     virtual void setAnswer(const std::vector<int>& Answer) = 0;
     virtual int getTimeLimit() const = 0;
