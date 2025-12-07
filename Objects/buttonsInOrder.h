@@ -27,7 +27,6 @@ public:
 
     [[nodiscard]] std::unique_ptr<Puzzle> clone() const override;
 
-    [[nodiscard]] std::vector<int> getAnswer() override;
     std::vector<int> getUserInput() override;
     void setAnswer(const std::vector<int>& Answer) override;
     int getTimeLimit() const override { return this->timeLimit; };

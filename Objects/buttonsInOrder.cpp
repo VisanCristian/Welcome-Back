@@ -19,6 +19,7 @@ void buttonsInOrder::generatePuzzle() {
     std::random_device rd;
     std::mt19937 gen(rd());
     std::ranges::shuffle(puzzle, gen);
+    this->userAnswer = puzzle;
 }
 
 std::vector<int> buttonsInOrder::getUserInput() {
@@ -33,11 +34,6 @@ std::vector<int> buttonsInOrder::getUserInput() {
 void buttonsInOrder::setCorrectAnswer() {
     this->correctAnswer = puzzle;
 }
-
-std::vector<int> buttonsInOrder::getAnswer(){
-    return correctAnswer;
-}
-
 
 void buttonsInOrder::setAnswer(const std::vector<int> &Answer) {
     std::vector<int> wrong(Answer.size(), -1);

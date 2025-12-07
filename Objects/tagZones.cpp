@@ -37,11 +37,6 @@ std::vector<int> tagZones::getUserInput() {
     return userAnswer;
 }
 
-std::vector<int> tagZones::getAnswer() {
-    return correctAnswer;
-}
-
-
 void tagZones::setAnswer(const std::vector<int> &Answer) {
     std::vector<int> wrong(Answer.size(), -1);
     std::random_device rd;
@@ -85,6 +80,7 @@ void tagZones::setCorrectAnswer() {
             }
         }
     }
+    userAnswer = correctAnswer;
 }
 
 bool tagZones::checkAnswer() const {

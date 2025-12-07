@@ -100,6 +100,8 @@ add_executable(${MAIN_EXECUTABLE_NAME}
         Objects/Computer.h
         Objects/GameErrors.cpp
         Objects/GameErrors.h
+        Objects/rememberNumbers.cpp
+        Objects/rememberNumbers.h
 )
 
 

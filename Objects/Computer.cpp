@@ -57,6 +57,7 @@ Result<std::vector<std::shared_ptr<Puzzle>>, ConstructorError> Computer::generat
 
     const std::string structure = "M" + std::to_string(milestone);
     std::vector<std::shared_ptr<Puzzle>> puzzles;
+    std::vector<std::string> tiers;
     std::string tier;
 
     while (tier != structure) {
@@ -71,7 +72,14 @@ Result<std::vector<std::shared_ptr<Puzzle>>, ConstructorError> Computer::generat
             return Result<std::vector<std::shared_ptr<Puzzle>>, ConstructorError>::ErrResult(
                     ConstructorError("Computer::generatePuzzle - not enough tier entries for milestone"));
         }
+        tiers.push_back(tier);
+    }
 
+    std::mt19937 gen1(std::random_device{}());
+    std::shuffle(tiers.begin(), tiers.end(), gen1);
+
+    for (int i = 0; i < 7; i++) {
+        tier = tiers[i]; 
         if (tier == "T1") {
             newPuzzle = std::make_shared<buttonsInOrder>(60, 100, 15);
             newPuzzle->setTimeUp(false);

@@ -123,6 +123,7 @@ std::vector<int> PathFinding::getUserInput() {
         std::reverse(solutionPath.begin(), solutionPath.end());
     }
     correctAnswer = solutionPath;
+    userAnswer = solutionPath;
     return solutionPath;
 }
 
@@ -134,11 +135,6 @@ void PathFinding::print(std::ostream& os) const {
     os << std::endl;
 }
 
-
-std::vector<int> PathFinding::getAnswer(){
-    getUserInput();
-    return correctAnswer;
-}
 
 void PathFinding::setAnswer(const std::vector<int>& Answer) {
     this->userAnswer = Answer;
