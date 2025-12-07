@@ -6,6 +6,7 @@
 #include "GameErrors.h"
 
 #include <iostream>
+#include <algorithm>
 #include <fstream>
 #include <random>
 #include <vector>
