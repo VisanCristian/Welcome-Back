@@ -15,12 +15,11 @@
 class Puzzle {
 protected:
 
-    int points = 0; // number of points awarded for solving this puzzle
+    int points = 0; 
     std::vector<int> puzzle;
     std::vector<int> userAnswer;
     std::vector<int> correctAnswer;
 
-    //std::string puzzleType;
     std::atomic<bool> solved;
     std::atomic<bool> timeUp;
     virtual void generatePuzzle() = 0;
