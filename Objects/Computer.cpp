@@ -12,6 +12,7 @@
 #include "buttonsInOrder.h"
 #include "tagZones.h"
 #include "PathFinding.h"
+#include "rememberNumbers.h"
 
 Computer::Computer() = default;
 
@@ -99,20 +100,24 @@ Result<std::vector<std::shared_ptr<Puzzle>>, ConstructorError> Computer::generat
         } else if (tier == "T3") {
             std::mt19937 gen(std::random_device{}());
             std::uniform_int_distribution<int> dist(1, 100);
-            if (dist(gen) % 3 == 0) {
+            if (dist(gen) % 4 == 0) {
                 newPuzzle = std::make_shared<buttonsInOrder>(60, 300, 50);
-            } else if (dist(gen) % 3 == 1) {
+            } else if (dist(gen) % 4 == 1) {
                 newPuzzle = std::make_shared<tagZones>(60, 300, 100);
-            } else {
+            } else if (dist(gen) % 4 == 2){
                 newPuzzle = std::make_shared<PathFinding>(60, 300, 20);
+            } else {
+                newPuzzle = std::make_shared<rememberNumbers>(60, 300, 7);
             }
             newPuzzle->setTimeUp(false);
             puzzles.push_back(newPuzzle);
 
-            if (dist(gen) % 2 == 0) {
+            if (dist(gen) % 3 == 0) {
                 newPuzzle = std::make_shared<tagZones>(60, 300, 100);
-            } else {
+            } else if (dist(gen) % 3 == 1){
                 newPuzzle = std::make_shared<PathFinding>(60, 300, 25);
+            } else {
+                newPuzzle = std::make_shared<rememberNumbers>(60, 300, 13);
             }
             newPuzzle->setTimeUp(false);
             puzzles.push_back(newPuzzle);
@@ -148,6 +153,12 @@ void Computer::eventLoop(int milestone, Player& player) {
             std::cout << "Pentru a rezolva puzzle-ul trebuie sa apasati butoanele in ordinea crescatoare a numerelor care apar.\n" << std::endl;
         } else if (std::dynamic_pointer_cast<tagZones>(newPuzzle)) {
             std::cout << "Pentru a rezolva puzzle-ul trebuie sa formati zone din blocuri adiacente. 2 blocuri sunt adiacente daca sunt una langa alta(inclusiv pe diagonala)\n" << std::endl;
+        } else if (std::dynamic_pointer_cast<PathFinding>(newPuzzle)) {
+            std::cout << "Pentru a rezolva puzzle-ul trebuie sa gasiti calea de la punctul de start la punctul de final.\n" << std::endl;
+        } else if (std::dynamic_pointer_cast<rememberNumbers>(newPuzzle)) {
+            std::cout << "Pentru a rezolva puzzle-ul trebuie sa rescrii numerele care au aparut pe ecran.\n" << std::endl;
+        } else {
+            throw GameError("Computer::eventLoop - invalid puzzle type");
         }
 
         newPuzzle->setAnswer(newPuzzle->getUserInput());
