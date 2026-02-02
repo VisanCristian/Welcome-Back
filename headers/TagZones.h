@@ -1,37 +1,31 @@
-//
-// Created by visan on 11/2/25.
-//
-
 #ifndef OOP_TAGZONES_H
 #define OOP_TAGZONES_H
 
-#include "Puzzle.h"
+#include "headers/Puzzle.h"
 
-class tagZones : public Puzzle{
+class TagZones : public Puzzle{
 protected:
     int timeLimit;
     void generatePuzzle() override;
     void setCorrectAnswer();
     void print(std::ostream& os) const override;
 public:
-
-    tagZones(const int timeLimit, const int points, const int size) : timeLimit(timeLimit) {
+    TagZones(int timeLimit, int points, int size) : timeLimit(timeLimit) {
         this->points = points;
         userAnswer.resize(size);
-        tagZones::generatePuzzle();
+        TagZones::generatePuzzle();
         setCorrectAnswer();
     };
-    ~tagZones() override = default;
+    ~TagZones() override = default;
 
-    friend std::ostream& operator<<(std::ostream& os, const tagZones& obj);
+    friend std::ostream& operator<<(std::ostream& os, const TagZones& obj);
 
     [[nodiscard]] std::unique_ptr<Puzzle> clone() const override;
 
     std::vector<int> getUserInput() override;
-    void setAnswer(const std::vector<int>& Answer) override;
+    void setAnswer(const std::vector<int>& answer) override;
     int getTimeLimit() const override { return this->timeLimit; };
     [[nodiscard]] bool checkAnswer() const override;
 };
 
-
-#endif //OOP_TAGZONES_H
+#endif

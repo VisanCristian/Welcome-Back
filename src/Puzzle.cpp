@@ -1,8 +1,4 @@
-//
-// Created by visan on 11/1/25.
-//
-
-#include "Puzzle.h"
+#include "headers/Puzzle.h"
 #include <random>
 #include <algorithm>
 #include <fstream>
@@ -44,6 +40,6 @@ std::ostream& operator<<(std::ostream& os, const Puzzle& obj) {
     return os;
 }
 
-void Puzzle::setTimeUp(const bool status) {
+void Puzzle::setTimeUp(bool status) {
     timeUp.store(status);
 }

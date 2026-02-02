@@ -1,13 +1,9 @@
-//
-// Created by visan on 11/2/25.
-//
-
 #ifndef OOP_BUTTONSINORDER_H
 #define OOP_BUTTONSINORDER_H
 
-#include "Puzzle.h"
+#include "headers/Puzzle.h"
 
-class buttonsInOrder : public Puzzle {
+class ButtonsInOrder : public Puzzle {
     int timeLimit;
 
     void generatePuzzle() override;
@@ -15,25 +11,23 @@ class buttonsInOrder : public Puzzle {
     void print(std::ostream& os) const override;
 
 public:
-    buttonsInOrder(const int timeLimit, const int points, const int size) : timeLimit(timeLimit) {
+    ButtonsInOrder(int timeLimit, int points, int size) : timeLimit(timeLimit) {
         this->points = points;
         userAnswer.resize(size);
-        buttonsInOrder::generatePuzzle();
+        ButtonsInOrder::generatePuzzle();
         setCorrectAnswer();
     };
-    ~buttonsInOrder() override = default;
+    ~ButtonsInOrder() override = default;
 
-    friend std::ostream& operator<<(std::ostream& os, const buttonsInOrder& obj);
+    friend std::ostream& operator<<(std::ostream& os, const ButtonsInOrder& obj);
 
     [[nodiscard]] std::unique_ptr<Puzzle> clone() const override;
 
     std::vector<int> getUserInput() override;
-    void setAnswer(const std::vector<int>& Answer) override;
+    void setAnswer(const std::vector<int>& answer) override;
     int getTimeLimit() const override { return this->timeLimit; };
 
     [[nodiscard]] bool checkAnswer() const override;
-
 };
 
-
-#endif //OOP_BUTTONSINORDER_H
+#endif

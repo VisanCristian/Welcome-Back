@@ -1,7 +1,3 @@
-//
-// Created by visan on 11/1/25.
-//
-
 #ifndef OOP_PUZZLE_H
 #define OOP_PUZZLE_H
 
@@ -14,14 +10,14 @@
 
 class Puzzle {
 protected:
-
-    int points = 0; 
+    int points = 0;
     std::vector<int> puzzle;
     std::vector<int> userAnswer;
     std::vector<int> correctAnswer;
 
     std::atomic<bool> solved;
     std::atomic<bool> timeUp;
+
     virtual void generatePuzzle() = 0;
     virtual void print(std::ostream& os) const = 0;
 
@@ -36,18 +32,13 @@ public:
     [[nodiscard]] virtual std::unique_ptr<Puzzle> clone() const = 0;
 
     virtual std::vector<int> getUserInput() = 0;
-    virtual void setAnswer(const std::vector<int>& Answer) = 0;
+    virtual void setAnswer(const std::vector<int>& answer) = 0;
     virtual int getTimeLimit() const = 0;
     virtual bool checkAnswer() const = 0;
 
     [[nodiscard]] virtual int getPoints() const;
 
-    void setTimeUp(const bool status);
-
-
-
-
+    void setTimeUp(bool status);
 };
 
-
-#endif //OOP_PUZZLE_H
+#endif

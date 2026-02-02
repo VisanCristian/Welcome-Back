@@ -1,13 +1,12 @@
 #include <fstream>
 #include <random>
-#include "Objects/buttonsInOrder.h"
-#include "Objects/gameObject.h"
-#include "Objects/Player.h"
-#include "Objects/Computer.h"
-#include "Objects/Puzzle.h"
-#include "Objects/tagZones.h"
-#include "Objects/GameErrors.h"
-
+#include "headers/ButtonsInOrder.h"
+#include "headers/GameObject.h"
+#include "headers/Player.h"
+#include "headers/Computer.h"
+#include "headers/Puzzle.h"
+#include "headers/TagZones.h"
+#include "headers/InvalidConfigFile.h"
 
 using namespace std;
 
@@ -27,11 +26,10 @@ int main() {
             throw InvalidConfigFile("Difficulty must be between 1 and 3");
         }
 
-        Player player1;              
+        Player player1;
         Computer computer;
-        gameObject game("nume", player1, computer);
-        game.start();
-
+        GameObject::getInstance().init("Game", player1, computer);
+        GameObject::getInstance().start();
         return 0;
     } catch (const InvalidConfigFile &e) {
         cerr << "Invalid configuration: " << e.what() << '\n';
