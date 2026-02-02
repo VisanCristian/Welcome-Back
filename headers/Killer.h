@@ -9,7 +9,6 @@ enum class Option {
 
 class Killer {
 private:
-    const int duration;
 public:
     Killer();
     virtual ~Killer();
