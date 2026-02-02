@@ -7,7 +7,7 @@ class Police : public Killer {
 
 public:
     Police();
-    ~Police();
+    ~Police() override;
 
     Option spawn() override;
 };

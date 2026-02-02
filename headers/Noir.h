@@ -7,7 +7,7 @@ class Noir : public Killer {
     
 public:
     Noir();
-    ~Noir();
+    ~Noir() override;
 
     Option spawn() override;
 };

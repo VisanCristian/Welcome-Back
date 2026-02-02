@@ -95,7 +95,7 @@ void GameObject::start() {
             std::cout << "The milestone is over and the player has " << player.getPoints() << " points." << std::endl;
             checkPoint();
             if (milestone == 7) {
-                player.setFinalKey(join(player.getKeys(), "%"));
+                player.setFinalKey(GameObject::join(player.getKeys(), "%"));
                 winGame(player.getFinalKey());
                 exit(0);
             }
@@ -110,6 +110,5 @@ void GameObject::start() {
         gameOver(e.what());
     }
 }
-
-template std::string join<char>(const std::vector<char>&, const std::string&);
-template std::string join<std::string>(const std::vector<std::string>&, const std::string&);
+template std::string GameObject::join<std::string>(const std::vector<std::string>&, const std::string&);
+template std::string GameObject::join<char>(const std::vector<char>&, const std::string&);

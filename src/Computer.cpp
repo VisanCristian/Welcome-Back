@@ -44,7 +44,7 @@ Result<std::string, GameError> Computer::getKey(){
     std::random_device rd;
     std::mt19937 gen(rd());
     std::shuffle(keyChars.begin(), keyChars.end(), gen);
-    std::string key = join(keyChars, "");
+    std::string key = GameObject::join(keyChars, "");
     return Result<std::string, GameError>::OkResult(key);
 }
 
@@ -168,9 +168,9 @@ void Computer::eventLoop(int milestone, Player& player, int& wrongChoice) {
             timeFromLastKillerSpawn = 0;
             std::shared_ptr<Killer> k;
             int randomKiller;
-            std::mt19937 gen(std::random_device{}());
-            std::uniform_int_distribution<int> dist(0, 2);
-            randomKiller = dist(gen);
+            std::mt19937 gen1(std::random_device{}());
+            std::uniform_int_distribution<int> dist1(0, 2);
+            randomKiller = dist1(gen1);
             if (randomKiller == 0) {
                 k = std::make_shared<Lucas>();
             } else if (randomKiller == 1) {

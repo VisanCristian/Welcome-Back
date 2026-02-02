@@ -8,16 +8,6 @@
 #include "Computer.h"
 #include "Player.h"
 
-template<typename T>
-std::string join(const std::vector<T>& elements, const std::string& delimiter) {
-    std::string result;
-    for (const auto& elem : elements) {
-        result += delimiter;
-        result += elem;
-    }
-    return result;
-}
-
 class GameObject {
     std::string name;
     std::chrono::steady_clock::time_point startTime;
@@ -31,6 +21,8 @@ class GameObject {
 
     static void gameOver(const std::string &reason);
     static void winGame(const std::string& finalKey);
+
+
     void setKeyPrice();
     std::string generateKey();
 
@@ -40,6 +32,18 @@ public:
     GameObject(const GameObject& other) = delete;
     void operator=(const GameObject& other) = delete;
     ~GameObject();
+
+    template<typename T>
+    static std::string join(const std::vector<T>& elements, const std::string& delimiter) {
+        std::string result;
+        for (const auto& elem : elements) {
+            if (!result.empty()) {
+                result += delimiter;
+            }
+            result += elem;
+        }
+        return result;
+    }
 
     static GameObject& getInstance();
     void init(const std::string& name, const Player& player, const Computer& computer);

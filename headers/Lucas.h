@@ -7,7 +7,7 @@ class Lucas : public Killer {
 
 public:
     Lucas();
-    ~Lucas();
+    ~Lucas() override;
 
     Option spawn() override;
 };
