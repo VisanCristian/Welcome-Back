@@ -1,5 +1,5 @@
-#include "headers/Noir.h"
-#include "headers/InvalidConfigFile.h"
+#include "../headers/Noir.h"
+#include "../headers/InvalidConfigFile.h"
 #include <SFML/Graphics.hpp>
 
 Noir::Noir() = default;

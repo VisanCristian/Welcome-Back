@@ -1,7 +1,7 @@
 #ifndef OOP_REMEMBERNUMBERS_H
 #define OOP_REMEMBERNUMBERS_H
 
-#include "headers/Puzzle.h"
+#include "Puzzle.h"
 
 class RememberNumbers : public Puzzle {
 protected:

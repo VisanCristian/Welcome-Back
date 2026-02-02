@@ -1,4 +1,4 @@
-#include "headers/GameError.h"
+#include "../headers/GameError.h"
 
 GameError::GameError(const std::string &msg) : message(msg) {}
 

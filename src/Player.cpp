@@ -1,4 +1,4 @@
-#include "headers/Player.h"
+#include "../headers/Player.h"
 
 Player::Player(const Player &other) {
     this->keys = other.keys;

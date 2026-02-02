@@ -1,5 +1,5 @@
-#include "headers/Police.h"
-#include "headers/InvalidConfigFile.h"
+#include "../headers/Police.h"
+#include "../headers/InvalidConfigFile.h"
 #include <SFML/Graphics.hpp>
 
 Police::Police() = default;

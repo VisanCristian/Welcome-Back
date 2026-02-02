@@ -1,7 +1,7 @@
 #ifndef OOP_BUTTONSINORDER_H
 #define OOP_BUTTONSINORDER_H
 
-#include "headers/Puzzle.h"
+#include "Puzzle.h"
 
 class ButtonsInOrder : public Puzzle {
     int timeLimit;

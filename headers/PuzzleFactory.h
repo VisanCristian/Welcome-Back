@@ -3,7 +3,7 @@
 
 #include <memory>
 #include <string>
-#include "headers/Puzzle.h"
+#include "Puzzle.h"
 
 class PuzzleFactory {
 public:

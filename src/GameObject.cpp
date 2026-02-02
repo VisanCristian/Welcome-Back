@@ -1,8 +1,8 @@
-#include "headers/GameObject.h"
-#include "headers/Result.h"
-#include "headers/GameError.h"
-#include "headers/ConstructorError.h"
-#include "headers/InternalError.h"
+#include "../headers/GameObject.h"
+#include "../headers/Result.h"
+#include "../headers/GameError.h"
+#include "../headers/ConstructorError.h"
+#include "../headers/InternalError.h"
 #include <iostream>
 
 GameObject::GameObject() : keyPrice(0), puzzleNr(1), milestone(1) {}

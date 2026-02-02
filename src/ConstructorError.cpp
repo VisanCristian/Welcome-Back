@@ -1,4 +1,4 @@
-#include "headers/ConstructorError.h"
+#include "../headers/ConstructorError.h"
 
 ConstructorError::ConstructorError(const std::string &objectName)
     : objectName("Constructor error: " + objectName) {}

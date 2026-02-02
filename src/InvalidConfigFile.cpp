@@ -1,4 +1,4 @@
-#include "headers/InvalidConfigFile.h"
+#include "../headers/InvalidConfigFile.h"
 
 InvalidConfigFile::InvalidConfigFile(const std::string &file)
     : file("Invalid configuration file: " + file) {}

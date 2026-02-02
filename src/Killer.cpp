@@ -1,4 +1,4 @@
-#include "headers/Killer.h"
+#include "../headers/Killer.h"
 
 Killer::Killer() : duration(0) {}
 

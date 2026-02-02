@@ -1,18 +1,18 @@
-#include "headers/Computer.h"
-#include "headers/GameObject.h"
+#include "../headers/Computer.h"
+#include "../headers/GameObject.h"
 
 #include <random>
 #include <algorithm>
 #include <fstream>
 #include <utility>
 
-#include "headers/PuzzleFactory.h"
-#include "headers/ButtonsInOrder.h"
-#include "headers/TagZones.h"
-#include "headers/RememberNumbers.h"
-#include "headers/Lucas.h"
-#include "headers/Noir.h"
-#include "headers/Police.h"
+#include "../headers/PuzzleFactory.h"
+#include "../headers/ButtonsInOrder.h"
+#include "../headers/TagZones.h"
+#include "../headers/RememberNumbers.h"
+#include "../headers/Lucas.h"
+#include "../headers/Noir.h"
+#include "../headers/Police.h"
 
 Computer::Computer() = default;
 

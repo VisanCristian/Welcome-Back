@@ -1,7 +1,7 @@
 #ifndef OOP_TAGZONES_H
 #define OOP_TAGZONES_H
 
-#include "headers/Puzzle.h"
+#include "Puzzle.h"
 
 class TagZones : public Puzzle{
 protected:

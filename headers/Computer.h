@@ -1,11 +1,11 @@
 #ifndef OOP_COMPUTER_H
 #define OOP_COMPUTER_H
 
-#include "headers/Player.h"
-#include "headers/Puzzle.h"
-#include "headers/Result.h"
-#include "headers/GameError.h"
-#include "headers/ConstructorError.h"
+#include "Player.h"
+#include "Puzzle.h"
+#include "Result.h"
+#include "GameError.h"
+#include "ConstructorError.h"
 
 #include <memory>
 

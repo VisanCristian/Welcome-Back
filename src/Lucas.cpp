@@ -1,5 +1,5 @@
-#include "headers/Lucas.h"
-#include "headers/InvalidConfigFile.h"
+#include "../headers/Lucas.h"
+#include "../headers/InvalidConfigFile.h"
 #include <SFML/Graphics.hpp>
 
 Lucas::Lucas() = default;

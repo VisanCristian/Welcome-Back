@@ -5,8 +5,8 @@
 #include <chrono>
 #include <vector>
 
-#include "headers/Computer.h"
-#include "headers/Player.h"
+#include "Computer.h"
+#include "Player.h"
 
 template<typename T>
 std::string join(const std::vector<T>& elements, const std::string& delimiter) {

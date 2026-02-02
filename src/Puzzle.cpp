@@ -1,4 +1,4 @@
-#include "headers/Puzzle.h"
+#include "../headers/Puzzle.h"
 #include <random>
 #include <algorithm>
 #include <fstream>

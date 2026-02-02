@@ -1,8 +1,8 @@
-#include "headers/PuzzleFactory.h"
-#include "headers/ButtonsInOrder.h"
-#include "headers/TagZones.h"
-#include "headers/RememberNumbers.h"
-#include "headers/ConstructorError.h"
+#include "../headers/PuzzleFactory.h"
+#include "../headers/ButtonsInOrder.h"
+#include "../headers/TagZones.h"
+#include "../headers/RememberNumbers.h"
+#include "../headers/ConstructorError.h"
 #include <random>
 
 std::shared_ptr<Puzzle> PuzzleFactory::createPuzzle(const std::string& tier) {

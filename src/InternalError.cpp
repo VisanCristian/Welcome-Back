@@ -1,4 +1,4 @@
-#include "headers/InternalError.h"
+#include "../headers/InternalError.h"
 
 InternalError::InternalError(const std::string &functionCall)
     : functionCall("Internal error: " + functionCall) {}
